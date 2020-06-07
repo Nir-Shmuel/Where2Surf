@@ -4,8 +4,8 @@
         android:id="@id/homeFragment"
         android:title="Home" />
     <item
-        android:id="@id/coastsListFragment"
-        android:title="Coasts" />
+        android:id="@id/spotsListFragment"
+        android:title="Spots" />
     <group android:id="@+id/drawer_group_unregistered">
         <item
 

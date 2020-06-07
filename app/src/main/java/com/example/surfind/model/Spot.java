@@ -4,16 +4,16 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Coast implements Serializable {
+public class Spot implements Serializable {
     private String name;
     private String location;
     private boolean isProtected;
     private List<Report> reports;
 
-    public Coast() {
+    public Spot() {
     }
 
-    public Coast(String name, String location, boolean isProtected) {
+    public Spot(String name, String location, boolean isProtected) {
         this.name = name;
         this.location = location;
         this.isProtected = isProtected;
@@ -43,7 +43,9 @@ public class Coast implements Serializable {
     public void setProtected(boolean aProtected) {
         isProtected = aProtected;
     }
-
+    public List<Report> getReports(){
+        return this.reports;
+    }
     public void addReport(Report report) {
         if (report != null)
             reports.add(report);

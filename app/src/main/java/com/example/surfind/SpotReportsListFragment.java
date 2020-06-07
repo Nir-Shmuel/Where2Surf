@@ -9,15 +9,14 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckedTextView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.example.surfind.model.Coast;
-import com.example.surfind.model.Model;
+import com.example.surfind.model.Spot;
+import com.example.surfind.model.Report;
 
 import java.util.List;
 
@@ -25,44 +24,45 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CoastsListFragment extends Fragment {
-    private RecyclerView coastsList;
-    private List<Coast> coasts;
-    private CoastsListsAdapter adapter;
-
+public class SpotReportsListFragment extends Fragment {
+    RecyclerView reportsList;
+    ReportsListAdapter adapter;
+    List<Report> reports;
 
     interface Delegate {
-        void OnItemSelected(Coast coast);
+        void OnItemSelected(Report report);
     }
 
     Delegate parent;
 
-    public CoastsListFragment() {
+    public SpotReportsListFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_coasts_list, container, false);
-        coastsList = view.findViewById(R.id.coasts_list_list);
-        coastsList.setHasFixedSize(true);
+        View view = inflater.inflate(R.layout.fragment_spot_reports_list, container, false);
+        reportsList = view.findViewById(R.id.spot_reports_list_list);
+        reportsList.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        coastsList.setLayoutManager(layoutManager);
+        reportsList.setLayoutManager(layoutManager);
 
-        adapter = new CoastsListsAdapter();
-        coastsList.setAdapter(adapter);
+        adapter = new ReportsListAdapter();
+        reportsList.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onClick(int position) {
-                Coast coast = coasts.get(position);
-                parent.OnItemSelected(coast);
+                Report report = reports.get(position);
+                parent.OnItemSelected(report);
             }
         });
-        coasts = Model.instance.getCoasts();
-        coastsList.addItemDecoration(new DividerItemDecoration(coastsList.getContext(), layoutManager.getOrientation()));
+        Spot reportedSpot = SpotReportsListFragmentArgs.fromBundle(getArguments()).getSpot();
+        reports = reportedSpot.getReports();
+        reportsList.addItemDecoration(new DividerItemDecoration(reportsList.getContext(), layoutManager.getOrientation()));
 
         return view;
     }
@@ -81,12 +81,11 @@ public class CoastsListFragment extends Fragment {
         void onClick(int position);
     }
 
-    static class CoastsViewHolder extends RecyclerView.ViewHolder {
-        TextView name;
-        TextView location;
-        CheckedTextView isProtected;
+    static class ReportRowViewHolder extends RecyclerView.ViewHolder {
+        TextView reporterName;
+        RatingBar reportRating;
 
-        public CoastsViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+        public ReportRowViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -99,19 +98,17 @@ public class CoastsListFragment extends Fragment {
                     }
                 }
             });
-            name = itemView.findViewById(R.id.row_coast_name_tv);
-            location = itemView.findViewById(R.id.row_coast_location_tv);
-            isProtected = itemView.findViewById(R.id.row_coast_protected_ctv);
+            reporterName = itemView.findViewById(R.id.row_reporter_name_tv);
+            reportRating = itemView.findViewById(R.id.row_report_rating_bar);
         }
 
-        void bind(Coast coast) {
-            name.setText(coast.getName());
-            location.setText(coast.getLocation());
-            isProtected.setChecked(coast.isProtected());
+        void bind(Report report) {
+            reporterName.setText(report.getReporterName());
+            reportRating.setNumStars(report.getReliabilityRating());
         }
     }
 
-    class CoastsListsAdapter extends RecyclerView.Adapter<CoastsViewHolder> {
+    class ReportsListAdapter extends RecyclerView.Adapter<ReportRowViewHolder> {
         private OnItemClickListener listener;
 
         void setOnItemClickListener(OnItemClickListener listener) {
@@ -120,20 +117,21 @@ public class CoastsListFragment extends Fragment {
 
         @NonNull
         @Override
-        public CoastsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.list_row_coast, parent, false);
-            return new CoastsViewHolder(view, listener);
+        public ReportRowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.list_row_report, parent, false);
+            return new ReportRowViewHolder(view, listener);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull CoastsViewHolder holder, int position) {
-            Coast coast = coasts.get(position);
-            holder.bind(coast);
+        public void onBindViewHolder(@NonNull ReportRowViewHolder holder, int position) {
+            Report report = reports.get(position);
+            holder.bind(report);
         }
 
         @Override
         public int getItemCount() {
-            return coasts.size();
+            return reports.size();
         }
     }
+
 }

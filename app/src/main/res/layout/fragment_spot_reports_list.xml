@@ -4,10 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".CoastsListFragment" >
+    tools:context=".SpotReportsListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/coasts_list_list"
+        android:id="@+id/spot_reports_list_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="?android:attr/actionBarSize" />
 </LinearLayout>

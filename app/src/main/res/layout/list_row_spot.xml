@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/row_coast_name_tv"
+        android:id="@+id/row_spot_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -44,7 +44,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/row_coast_location_tv"
+        android:id="@+id/row_spot_location_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -59,19 +59,20 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <CheckedTextView
-        android:id="@+id/row_coast_protected_ctv"
+        android:id="@+id/row_spot_protected_ctv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="20dp"
-        android:text="protected"
+        android:text="protected?"
         android:textSize="18sp"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/row_coast_location_tv"
+        app:layout_constraintStart_toEndOf="@+id/row_spot_location_tv"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 

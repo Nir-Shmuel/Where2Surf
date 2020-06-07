@@ -4,20 +4,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Model {
-    private List<Coast> coasts;
+    private List<Spot> spots;
     public static final Model instance = new Model();
 
     private Model() {
-        coasts = new LinkedList<>();
+        spots = new LinkedList<>();
         for (int i = 0; i < 10; i++) {
             boolean p = i % 2 == 0;
-            Coast coast = new Coast("coast " + i, "location " + i, p);
-            coast.addReport(new Report("reporter "+i,1,"",1,1,0,false));
-            coasts.add(coast);
+            Spot spot = new Spot("coast " + i, "location " + i, p);
+            spot.addReport(new Report("reporter "+i,1,"",1,1,0,false));
+            spots.add(spot);
         }
     }
 
-    public List<Coast> getCoasts() {
-        return coasts;
+    public List<Spot> getSpots() {
+        return spots;
     }
 }

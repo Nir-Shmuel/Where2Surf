@@ -14,10 +14,11 @@ import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.surfind.model.Coast;
+import com.example.surfind.model.Spot;
+import com.example.surfind.model.Report;
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity implements CoastsListFragment.Delegate, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements SpotsListFragment.Delegate, SpotReportsListFragment.Delegate, NavigationView.OnNavigationItemSelectedListener {
     NavController navController;
 
     @Override
@@ -62,7 +63,12 @@ public class MainActivity extends AppCompatActivity implements CoastsListFragmen
     }
 
     @Override
-    public void OnItemSelected(Coast coast) {
-        navController.navigate(CoastReportsListFragmentDirections.actionGlobalCoastReportListFragment(coast));
+    public void OnItemSelected(Spot spot) {
+        navController.navigate(SpotReportsListFragmentDirections.actionGlobalCoastReportListFragment(spot));
+    }
+
+    @Override
+    public void OnItemSelected(Report report) {
+//        navController.navigate(CoastReportsListFragmentDirections.actionGlobalCoastReportListFragment(report));
     }
 }

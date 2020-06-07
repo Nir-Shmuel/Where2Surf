@@ -13,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.surfind.model.Coast;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,9 +30,9 @@ public class HomeFragment extends Fragment{
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
         setHasOptionsMenu(true);
-        Button clBtn = view.findViewById(R.id.home_coastslist_btn);
+        Button clBtn = view.findViewById(R.id.home_spots_list_btn);
 
-        clBtn.setOnClickListener(Navigation.createNavigateOnClickListener(CoastsListFragmentDirections.actionGlobalCoastsListFragment()));
+        clBtn.setOnClickListener(Navigation.createNavigateOnClickListener(SpotsListFragmentDirections.actionGlobalCoastsListFragment()));
         return view;
     }
 
