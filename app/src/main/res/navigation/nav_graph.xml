@@ -8,14 +8,20 @@
         android:id="@+id/homeFragment"
         android:name="com.example.surfind.HomeFragment"
         android:label="SurFind"
-        tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_homeFragment_to_coastsListFragment"
-            app:destination="@id/menu_coasts_list" />
-    </fragment>
+        tools:layout="@layout/fragment_home"/>
     <fragment
-        android:id="@+id/menu_coasts_list"
+        android:id="@+id/coastsListFragment"
         android:name="com.example.surfind.CoastsListFragment"
         android:label="Coasts List"
         tools:layout="@layout/fragment_coasts_list" />
+    <fragment
+        android:id="@+id/coastReportListFragment"
+        android:name="com.example.surfind.CoastReportsListFragment"
+        android:label="Reports List"
+        tools:layout="@layout/fragment_coast_reports_list" >
+        <argument
+            android:name="coast"
+            app:argType="com.example.surfind.model.Coast" />
+    </fragment>
+    <action android:id="@+id/action_global_coastsListFragment" app:destination="@id/coastsListFragment" /><action android:id="@+id/action_global_coastReportListFragment" app:destination="@id/coastReportListFragment"/>
 </navigation>
