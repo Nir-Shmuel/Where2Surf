@@ -2,6 +2,7 @@ package com.example.surfind;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -64,11 +65,20 @@ public class MainActivity extends AppCompatActivity implements SpotsListFragment
 
     @Override
     public void OnItemSelected(Spot spot) {
-        navController.navigate(SpotReportsListFragmentDirections.actionGlobalCoastReportListFragment(spot));
+        navController.navigate(SpotReportsListFragmentDirections.actionGlobalSpotReportListFragment(spot));
+//        concatToActionBarTitle(spot.getName());
     }
 
     @Override
     public void OnItemSelected(Report report) {
-//        navController.navigate(CoastReportsListFragmentDirections.actionGlobalCoastReportListFragment(report));
+        navController.navigate(ReportDetailsFragmentDirections.actionGlobalReportDetailsFragment(report));
+//        concatToActionBarTitle(report.getSpotName());
     }
+
+    public void concatToActionBarTitle(String title) {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setTitle(String.format("%s: %s", actionBar.getTitle(), title));
+    }
+
 }

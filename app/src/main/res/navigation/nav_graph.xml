@@ -23,5 +23,15 @@
             android:name="spot"
             app:argType="com.example.surfind.model.Spot" />
     </fragment>
-    <action android:id="@+id/action_global_coastsListFragment" app:destination="@id/spotsListFragment" /><action android:id="@+id/action_global_coastReportListFragment" app:destination="@id/spotReportListFragment"/>
+    <action android:id="@+id/action_global_spotsListFragment" app:destination="@id/spotsListFragment" /><action android:id="@+id/action_global_spotReportListFragment" app:destination="@id/spotReportListFragment"/>
+    <fragment
+        android:id="@+id/reportDetailsFragment"
+        android:name="com.example.surfind.ReportDetailsFragment"
+        android:label="Report details"
+        tools:layout="@layout/fragment_report_details">
+        <argument
+            android:name="report"
+            app:argType="com.example.surfind.model.Report" />
+    </fragment>
+    <action android:id="@+id/action_global_reportDetailsFragment" app:destination="@id/reportDetailsFragment" />
 </navigation>

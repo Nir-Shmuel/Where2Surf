@@ -7,16 +7,16 @@ import java.util.List;
 public class Spot implements Serializable {
     private String name;
     private String location;
-    private boolean isProtected;
+    private boolean isWindProtected;
     private List<Report> reports;
 
     public Spot() {
     }
 
-    public Spot(String name, String location, boolean isProtected) {
+    public Spot(String name, String location, boolean isWindProtected) {
         this.name = name;
         this.location = location;
-        this.isProtected = isProtected;
+        this.isWindProtected = isWindProtected;
         this.reports = new LinkedList<>();
     }
 
@@ -36,12 +36,12 @@ public class Spot implements Serializable {
         this.location = location;
     }
 
-    public boolean isProtected() {
-        return isProtected;
+    public boolean isWindProtected() {
+        return isWindProtected;
     }
 
-    public void setProtected(boolean aProtected) {
-        isProtected = aProtected;
+    public void setWindProtected(boolean windProtected) {
+        isWindProtected = windProtected;
     }
     public List<Report> getReports(){
         return this.reports;

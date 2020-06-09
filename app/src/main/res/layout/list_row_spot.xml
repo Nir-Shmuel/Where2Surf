@@ -6,73 +6,39 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/row_spot_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Name"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:text="name"
         android:textSize="18sp"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/row_spot_name_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="20dp"
-        android:text="name"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/name"
-        app:layout_constraintStart_toStartOf="@+id/name"
-        app:layout_constraintTop_toBottomOf="@+id/name"
-        app:layout_constraintVertical_bias="0.053" />
-
-    <TextView
-        android:id="@+id/location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="16dp"
-        android:text="Location"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/name"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/row_spot_location_tv"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="20dp"
         android:text="location"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/location"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/location"
-        app:layout_constraintTop_toBottomOf="@+id/location"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toEndOf="@+id/row_spot_name_tv"
+        app:layout_constraintStart_toStartOf="@+id/row_spot_name_tv"
+        app:layout_constraintTop_toBottomOf="@+id/row_spot_name_tv" />
 
     <CheckedTextView
         android:id="@+id/row_spot_protected_ctv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="40dp"
-        android:layout_marginBottom="20dp"
-        android:text="protected?"
-        android:textSize="18sp"
+        android:layout_marginBottom="40dp"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:text="Wind protection?"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/row_spot_location_tv"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 

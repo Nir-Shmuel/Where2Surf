@@ -12,7 +12,11 @@ public class Model {
         for (int i = 0; i < 10; i++) {
             boolean p = i % 2 == 0;
             Spot spot = new Spot("coast " + i, "location " + i, p);
-            spot.addReport(new Report("reporter "+i,1,"",1,1,0,false));
+            for (int j = 0; j < 10; j++) {
+                Report r = new Report("reporter " + i + j, spot.getName(), 1, "", 1, 1, 0, i % 2 == 0);
+                r.setReliabilityRating(j % 5);
+                spot.addReport(r);
+            }
             spots.add(spot);
         }
     }

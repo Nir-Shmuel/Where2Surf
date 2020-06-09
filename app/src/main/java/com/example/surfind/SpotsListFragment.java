@@ -83,7 +83,7 @@ public class SpotsListFragment extends Fragment {
     static class SpotRowViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView location;
-        CheckedTextView isProtected;
+        CheckedTextView isWindProtected;
 
         public SpotRowViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -100,13 +100,13 @@ public class SpotsListFragment extends Fragment {
             });
             name = itemView.findViewById(R.id.row_spot_name_tv);
             location = itemView.findViewById(R.id.row_spot_location_tv);
-            isProtected = itemView.findViewById(R.id.row_spot_protected_ctv);
+            isWindProtected = itemView.findViewById(R.id.row_spot_protected_ctv);
         }
 
         void bind(Spot spot) {
-            name.setText(spot.getName());
-            location.setText(spot.getLocation());
-            isProtected.setChecked(spot.isProtected());
+            name.setText(String.format("Name: %s",spot.getName()));
+            location.setText(String.format("Location: %s",spot.getLocation()));
+            isWindProtected.setChecked(spot.isWindProtected());
         }
     }
 

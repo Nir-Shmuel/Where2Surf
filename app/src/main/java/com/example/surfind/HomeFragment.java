@@ -32,7 +32,7 @@ public class HomeFragment extends Fragment{
         setHasOptionsMenu(true);
         Button clBtn = view.findViewById(R.id.home_spots_list_btn);
 
-        clBtn.setOnClickListener(Navigation.createNavigateOnClickListener(SpotsListFragmentDirections.actionGlobalCoastsListFragment()));
+        clBtn.setOnClickListener(Navigation.createNavigateOnClickListener(SpotsListFragmentDirections.actionGlobalSpotsListFragment()));
         return view;
     }
 

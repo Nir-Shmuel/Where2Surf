@@ -61,6 +61,7 @@ public class SpotReportsListFragment extends Fragment {
             }
         });
         Spot reportedSpot = SpotReportsListFragmentArgs.fromBundle(getArguments()).getSpot();
+        
         reports = reportedSpot.getReports();
         reportsList.addItemDecoration(new DividerItemDecoration(reportsList.getContext(), layoutManager.getOrientation()));
 
@@ -82,7 +83,10 @@ public class SpotReportsListFragment extends Fragment {
     }
 
     static class ReportRowViewHolder extends RecyclerView.ViewHolder {
-        TextView reporterName;
+        TextView reporterNameTv;
+        TextView wavesHeightTv;
+        TextView windSpeedTv;
+        TextView dateTv;
         RatingBar reportRating;
 
         public ReportRowViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
@@ -98,13 +102,19 @@ public class SpotReportsListFragment extends Fragment {
                     }
                 }
             });
-            reporterName = itemView.findViewById(R.id.row_reporter_name_tv);
+            reporterNameTv = itemView.findViewById(R.id.row_reporter_name_tv);
+            wavesHeightTv = itemView.findViewById(R.id.row_report_wave_height_tv);
+            windSpeedTv = itemView.findViewById(R.id.row_report_wind_speed_tv);
+            dateTv = itemView.findViewById(R.id.row_report_date_tv);
             reportRating = itemView.findViewById(R.id.row_report_rating_bar);
         }
 
         void bind(Report report) {
-            reporterName.setText(report.getReporterName());
-            reportRating.setNumStars(report.getReliabilityRating());
+            reporterNameTv.setText(String.format("Reported by: %s", report.getReporterName()));
+            wavesHeightTv.setText(String.format("Waves: %s meters", report.getWavesHeight()));
+            windSpeedTv.setText(String.format("Wind: %s knots", report.getWindSpeed()));
+            dateTv.setText(String.format("%s", report.getDate()));
+            reportRating.setRating(report.getReliabilityRating());
         }
     }
 

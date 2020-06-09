@@ -5,6 +5,16 @@ import java.util.Date;
 
 public class Report implements Serializable {
     private String reporterName;
+    private String spotName;
+
+    public String getSpotName() {
+        return spotName;
+    }
+
+    public void setSpotName(String spotName) {
+        this.spotName = spotName;
+    }
+
     private double date;
     private String image;
     private int wavesHeight;
@@ -13,14 +23,18 @@ public class Report implements Serializable {
     private boolean isContaminated;
     private int reliabilityRating;
 
-    public Report(String reporterName, double date, String image, int wavesHeight, int windSpeed, int numOfSurfers, boolean isContaminated) {
+    public Report(String reporterName, String spotName, double date, String image, int wavesHeight, int windSpeed, int numOfSurfers, boolean isContaminated) {
         this.reporterName = reporterName;
+        this.spotName = spotName;
         this.date = date;
         this.image = image;
         this.wavesHeight = wavesHeight;
         this.windSpeed = windSpeed;
         this.numOfSurfers = numOfSurfers;
         this.isContaminated = isContaminated;
+    }
+
+    public Report() {
     }
 
     public String getReporterName() {
@@ -84,7 +98,9 @@ public class Report implements Serializable {
     }
 
     public void setReliabilityRating(int reliabilityRating) {
-        this.reliabilityRating = reliabilityRating;
+        if (reliabilityRating < 0)
+            this.reliabilityRating = 0;
+        this.reliabilityRating = Math.min(5, reliabilityRating);
     }
 
 }
