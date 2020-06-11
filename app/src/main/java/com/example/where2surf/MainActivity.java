@@ -1,4 +1,4 @@
-package com.example.surfind;
+package com.example.where2surf;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,8 +15,8 @@ import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.surfind.model.Spot;
-import com.example.surfind.model.Report;
+import com.example.where2surf.model.Spot;
+import com.example.where2surf.model.Report;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements SpotsListFragment.Delegate, SpotReportsListFragment.Delegate, NavigationView.OnNavigationItemSelectedListener {
@@ -48,12 +48,6 @@ public class MainActivity extends AppCompatActivity implements SpotsListFragment
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()){
-//            case R.id.homeFragment:
-//                return navController.navigateUp();
-//            case R.id.coastsListFragment:
-//                return NavigationUI.onNavDestinationSelected(item,navController);
-//        }
         return NavigationUI.onNavDestinationSelected(item, navController) || super.onOptionsItemSelected(item);
     }
 

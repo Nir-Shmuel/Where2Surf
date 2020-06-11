@@ -1,14 +1,22 @@
-package com.example.surfind.model;
+package com.example.where2surf.model;
+
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
+
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 
+@Entity(tableName = "Spots")
 public class Spot implements Serializable {
+    @PrimaryKey
+    @NonNull
+    private String id;
     private String name;
     private String location;
     private boolean isWindProtected;
-    private List<Report> reports;
 
     public Spot() {
     }
@@ -17,7 +25,15 @@ public class Spot implements Serializable {
         this.name = name;
         this.location = location;
         this.isWindProtected = isWindProtected;
-        this.reports = new LinkedList<>();
+    }
+
+    @NonNull
+    public String getId() {
+        return id;
+    }
+
+    public void setId(@NonNull String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -43,11 +59,18 @@ public class Spot implements Serializable {
     public void setWindProtected(boolean windProtected) {
         isWindProtected = windProtected;
     }
-    public List<Report> getReports(){
-        return this.reports;
-    }
-    public void addReport(Report report) {
+
+    @SuppressLint("StaticFieldLeak")
+    public void addReport(final Report report) {
         if (report != null)
-            reports.add(report);
+            new AsyncTask<String,String,String>(){
+
+                @Override
+                protected String doInBackground(String... strings) {
+                    AppLocalDb.db.reportDao().insertAll(report);
+                    return null;
+                }
+            }.execute();
+
     }
 }

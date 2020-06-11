@@ -1,10 +1,13 @@
-package com.example.surfind;
+package com.example.where2surf;
 
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,9 +18,10 @@ import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
-import com.example.surfind.model.Spot;
-import com.example.surfind.model.Model;
+import com.example.where2surf.model.Spot;
+import com.example.where2surf.model.SpotModel;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -26,8 +30,10 @@ import java.util.List;
  */
 public class SpotsListFragment extends Fragment {
     private RecyclerView spotsList;
-    private List<Spot> spots;
+    private List<Spot> spotsData = new LinkedList<>();
+    private SpotsListViewModel viewModel;
     private SpotsListAdapter adapter;
+    private LiveData<List<Spot>> liveData;
 
 
     interface Delegate {
@@ -56,13 +62,21 @@ public class SpotsListFragment extends Fragment {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onClick(int position) {
-                Spot spot = spots.get(position);
+                Spot spot = spotsData.get(position);
                 parent.OnItemSelected(spot);
             }
         });
-        spots = Model.instance.getSpots();
+
         spotsList.addItemDecoration(new DividerItemDecoration(spotsList.getContext(), layoutManager.getOrientation()));
 
+        liveData = viewModel.getLiveData();
+        liveData.observe(getViewLifecycleOwner(), new Observer<List<Spot>>() {
+            @Override
+            public void onChanged(List<Spot> spots) {
+                spotsData = spots;
+                adapter.notifyDataSetChanged();
+            }
+        });
         return view;
     }
 
@@ -74,6 +88,8 @@ public class SpotsListFragment extends Fragment {
         } else {
             throw new RuntimeException("Parent activity must implement Delegate interface");
         }
+
+        viewModel = new ViewModelProvider(this).get(SpotsListViewModel.class);
     }
 
     interface OnItemClickListener {
@@ -104,8 +120,8 @@ public class SpotsListFragment extends Fragment {
         }
 
         void bind(Spot spot) {
-            name.setText(String.format("Name: %s",spot.getName()));
-            location.setText(String.format("Location: %s",spot.getLocation()));
+            name.setText(String.format("Name: %s", spot.getName()));
+            location.setText(String.format("Location: %s", spot.getLocation()));
             isWindProtected.setChecked(spot.isWindProtected());
         }
     }
@@ -126,13 +142,13 @@ public class SpotsListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull SpotRowViewHolder holder, int position) {
-            Spot spot = spots.get(position);
+            Spot spot = spotsData.get(position);
             holder.bind(spot);
         }
 
         @Override
         public int getItemCount() {
-            return spots.size();
+            return spotsData.size();
         }
     }
 }

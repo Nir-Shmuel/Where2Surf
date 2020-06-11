@@ -1,4 +1,4 @@
-package com.example.surfind;
+package com.example.where2surf;
 
 import android.os.Bundle;
 
@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.example.surfind.model.Report;
+import com.example.where2surf.model.Report;
 
 /**
  * A simple {@link Fragment} subclass.

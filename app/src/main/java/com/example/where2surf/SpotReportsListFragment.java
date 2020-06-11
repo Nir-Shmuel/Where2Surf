@@ -1,10 +1,13 @@
-package com.example.surfind;
+package com.example.where2surf;
 
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,9 +18,11 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.example.surfind.model.Spot;
-import com.example.surfind.model.Report;
+import com.example.where2surf.model.ReportModel;
+import com.example.where2surf.model.Spot;
+import com.example.where2surf.model.Report;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -25,9 +30,12 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class SpotReportsListFragment extends Fragment {
-    RecyclerView reportsList;
-    ReportsListAdapter adapter;
-    List<Report> reports;
+    private RecyclerView reportsList;
+    private ReportsListAdapter adapter;
+    private List<Report> reportsData = new LinkedList<>();
+    private Spot reportedSpot;
+    private SpotReportsListViewModel viewModel;
+    private LiveData<List<Report>> liveData;
 
     interface Delegate {
         void OnItemSelected(Report report);
@@ -56,13 +64,21 @@ public class SpotReportsListFragment extends Fragment {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onClick(int position) {
-                Report report = reports.get(position);
+                Report report = reportsData.get(position);
                 parent.OnItemSelected(report);
             }
         });
-        Spot reportedSpot = SpotReportsListFragmentArgs.fromBundle(getArguments()).getSpot();
-        
-        reports = reportedSpot.getReports();
+
+        reportedSpot = SpotReportsListFragmentArgs.fromBundle(getArguments()).getSpot();
+        liveData = viewModel.getLiveData(reportedSpot);
+        liveData.observe(getViewLifecycleOwner(), new Observer<List<Report>>() {
+            @Override
+            public void onChanged(List<Report> reports) {
+                reportsData = reports;
+                adapter.notifyDataSetChanged();
+            }
+        });
+
         reportsList.addItemDecoration(new DividerItemDecoration(reportsList.getContext(), layoutManager.getOrientation()));
 
         return view;
@@ -76,6 +92,8 @@ public class SpotReportsListFragment extends Fragment {
         } else {
             throw new RuntimeException("Parent activity must implement Delegate interface");
         }
+
+        viewModel= new ViewModelProvider(this).get(SpotReportsListViewModel.class);
     }
 
     interface OnItemClickListener {
@@ -134,13 +152,13 @@ public class SpotReportsListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ReportRowViewHolder holder, int position) {
-            Report report = reports.get(position);
+            Report report = reportsData.get(position);
             holder.bind(report);
         }
 
         @Override
         public int getItemCount() {
-            return reports.size();
+            return reportsData.size();
         }
     }
 

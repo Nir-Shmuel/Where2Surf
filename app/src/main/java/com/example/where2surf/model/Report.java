@@ -1,11 +1,25 @@
-package com.example.surfind.model;
+package com.example.where2surf.model;
+
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
-import java.util.Date;
 
+@Entity(tableName = "Reports")
 public class Report implements Serializable {
+    @PrimaryKey
+    @NonNull
+    private String id;
     private String reporterName;
     private String spotName;
+    private double date;
+    private String image;
+    private int wavesHeight;
+    private int windSpeed;
+    private int numOfSurfers;
+    private boolean isContaminated;
+    private int reliabilityRating;
 
     public String getSpotName() {
         return spotName;
@@ -15,13 +29,15 @@ public class Report implements Serializable {
         this.spotName = spotName;
     }
 
-    private double date;
-    private String image;
-    private int wavesHeight;
-    private int windSpeed;
-    private int numOfSurfers;
-    private boolean isContaminated;
-    private int reliabilityRating;
+    @NonNull
+    public String getId() {
+        return id;
+    }
+
+    public void setId(@NonNull String id) {
+        this.id = id;
+    }
+
 
     public Report(String reporterName, String spotName, double date, String image, int wavesHeight, int windSpeed, int numOfSurfers, boolean isContaminated) {
         this.reporterName = reporterName;

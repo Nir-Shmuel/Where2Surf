@@ -1,4 +1,4 @@
-package com.example.surfind;
+package com.example.where2surf;
 
 import android.os.Bundle;
 

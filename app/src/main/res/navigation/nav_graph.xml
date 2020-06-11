@@ -6,32 +6,32 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.surfind.HomeFragment"
-        android:label="SurFind"
-        tools:layout="@layout/fragment_home"/>
+        android:name="com.example.where2surf.HomeFragment"
+        android:label="WTS"
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/spotsListFragment"
-        android:name="com.example.surfind.SpotsListFragment"
+        android:name="com.example.where2surf.SpotsListFragment"
         android:label="Spots List"
         tools:layout="@layout/fragment_spots_list" />
     <fragment
         android:id="@+id/spotReportListFragment"
-        android:name="com.example.surfind.SpotReportsListFragment"
+        android:name="com.example.where2surf.SpotReportsListFragment"
         android:label="Reports List"
         tools:layout="@layout/fragment_spot_reports_list" >
         <argument
             android:name="spot"
-            app:argType="com.example.surfind.model.Spot" />
+            app:argType="com.example.where2surf.model.Spot" />
     </fragment>
     <action android:id="@+id/action_global_spotsListFragment" app:destination="@id/spotsListFragment" /><action android:id="@+id/action_global_spotReportListFragment" app:destination="@id/spotReportListFragment"/>
     <fragment
         android:id="@+id/reportDetailsFragment"
-        android:name="com.example.surfind.ReportDetailsFragment"
+        android:name="com.example.where2surf.ReportDetailsFragment"
         android:label="Report details"
         tools:layout="@layout/fragment_report_details">
         <argument
             android:name="report"
-            app:argType="com.example.surfind.model.Report" />
+            app:argType="com.example.where2surf.model.Report" />
     </fragment>
     <action android:id="@+id/action_global_reportDetailsFragment" app:destination="@id/reportDetailsFragment" />
 </navigation>
