@@ -17,6 +17,15 @@ public class Spot implements Serializable {
     private String name;
     private String location;
     private boolean isWindProtected;
+    long lastUpdated;
+
+    public long getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(long lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
 
     public Spot() {
     }

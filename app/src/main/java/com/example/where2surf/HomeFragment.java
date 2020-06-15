@@ -36,9 +36,4 @@ public class HomeFragment extends Fragment{
         return view;
     }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.top_nav_menu, menu);
-    }
 }

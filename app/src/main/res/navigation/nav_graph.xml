@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/spotsListFragment">
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.where2surf.HomeFragment"
@@ -18,12 +18,17 @@
         android:id="@+id/spotReportListFragment"
         android:name="com.example.where2surf.SpotReportsListFragment"
         android:label="Reports List"
-        tools:layout="@layout/fragment_spot_reports_list" >
+        tools:layout="@layout/fragment_spot_reports_list">
         <argument
             android:name="spot"
             app:argType="com.example.where2surf.model.Spot" />
     </fragment>
-    <action android:id="@+id/action_global_spotsListFragment" app:destination="@id/spotsListFragment" /><action android:id="@+id/action_global_spotReportListFragment" app:destination="@id/spotReportListFragment"/>
+    <action
+        android:id="@+id/action_global_spotsListFragment"
+        app:destination="@id/spotsListFragment" />
+    <action
+        android:id="@+id/action_global_spotReportListFragment"
+        app:destination="@id/spotReportListFragment" />
     <fragment
         android:id="@+id/reportDetailsFragment"
         android:name="com.example.where2surf.ReportDetailsFragment"
@@ -33,5 +38,25 @@
             android:name="report"
             app:argType="com.example.where2surf.model.Report" />
     </fragment>
-    <action android:id="@+id/action_global_reportDetailsFragment" app:destination="@id/reportDetailsFragment" />
+    <action
+        android:id="@+id/action_global_reportDetailsFragment"
+        app:destination="@id/reportDetailsFragment" />
+
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.where2surf.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.example.where2surf.SignupFragment"
+        android:label="Signup"
+        tools:layout="@layout/fragment_signup" />
+    <action
+        android:id="@+id/action_global_signupFragment"
+        app:destination="@id/signupFragment" />
+    <action
+        android:id="@+id/action_global_loginFragment"
+        app:destination="@id/loginFragment" />
 </navigation>

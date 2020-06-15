@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,6 +78,19 @@ public class SpotsListFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
+
+        final SwipeRefreshLayout swipeRefresh = view.findViewById(R.id.spots_list_swipe_refresh);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewModel.refresh(new SpotModel.CompleteListener() {
+                    @Override
+                    public void onComplete() {
+                        swipeRefresh.setRefreshing(false);
+                    }
+                });
+            }
+        });
         return view;
     }
 
@@ -90,6 +104,12 @@ public class SpotsListFragment extends Fragment {
         }
 
         viewModel = new ViewModelProvider(this).get(SpotsListViewModel.class);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        parent = null;
     }
 
     interface OnItemClickListener {

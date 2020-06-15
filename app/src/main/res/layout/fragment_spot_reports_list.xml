@@ -6,9 +6,15 @@
     android:orientation="vertical"
     tools:context=".SpotReportsListFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/spot_reports_list_list"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/spot_reports_list_swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?android:attr/actionBarSize" />
+        android:layout_marginTop="?android:attr/actionBarSize">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/spot_reports_list_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

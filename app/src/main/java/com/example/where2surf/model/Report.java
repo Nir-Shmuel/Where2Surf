@@ -13,13 +13,22 @@ public class Report implements Serializable {
     private String id;
     private String reporterName;
     private String spotName;
-    private double date;
-    private String image;
+    private long date;
+    private String imageUrl;
     private int wavesHeight;
     private int windSpeed;
     private int numOfSurfers;
     private boolean isContaminated;
     private int reliabilityRating;
+    private long lastUpdated;
+
+    public long getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(long lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
 
     public String getSpotName() {
         return spotName;
@@ -39,11 +48,11 @@ public class Report implements Serializable {
     }
 
 
-    public Report(String reporterName, String spotName, double date, String image, int wavesHeight, int windSpeed, int numOfSurfers, boolean isContaminated) {
+    public Report(String reporterName, String spotName, long date, String imageUrl, int wavesHeight, int windSpeed, int numOfSurfers, boolean isContaminated) {
         this.reporterName = reporterName;
         this.spotName = spotName;
         this.date = date;
-        this.image = image;
+        this.imageUrl = imageUrl;
         this.wavesHeight = wavesHeight;
         this.windSpeed = windSpeed;
         this.numOfSurfers = numOfSurfers;
@@ -61,20 +70,20 @@ public class Report implements Serializable {
         this.reporterName = reporterName;
     }
 
-    public double getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(double date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
-    public String getImage() {
-        return image;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public int getWavesHeight() {

@@ -8,27 +8,14 @@ import androidx.room.PrimaryKey;
 public class User {
     @PrimaryKey
     @NonNull
-    private String userId;
+    private String email;
     private String firstName;
     private String lastName;
-    private String email;
-    private String surfingType;
-    private String homeSpot;
 
-    public User(String firstName, String lastName, String email, String surfingType, String homeSpot) {
+    public User(String firstName, String lastName, @NonNull String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.surfingType = surfingType;
-        this.homeSpot = homeSpot;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -54,22 +41,5 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getSurfingType() {
-        return surfingType;
-    }
-
-    public void setSurfingType(String surfingType) {
-        this.surfingType = surfingType;
-    }
-
-    public String getHomeSpot() {
-        return homeSpot;
-    }
-
-    public void setHomeSpot(String homeSpot) {
-        this.homeSpot = homeSpot;
-    }
-
 
 }

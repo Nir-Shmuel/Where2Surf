@@ -16,4 +16,8 @@ public class SpotsListViewModel extends ViewModel {
             liveData = SpotModel.instance.getAllSpots();
         return liveData;
     }
+
+    public void refresh(SpotModel.CompleteListener listener) {
+        SpotModel.instance.refreshSpotsList(listener);
+    }
 }

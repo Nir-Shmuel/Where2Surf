@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.example.where2surf.model.ReportModel;
 import com.example.where2surf.model.Spot;
 import com.example.where2surf.model.Report;
+import com.example.where2surf.model.SpotModel;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -80,7 +82,18 @@ public class SpotReportsListFragment extends Fragment {
         });
 
         reportsList.addItemDecoration(new DividerItemDecoration(reportsList.getContext(), layoutManager.getOrientation()));
-
+        final SwipeRefreshLayout swipeRefresh = view.findViewById(R.id.spot_reports_list_swipe_refresh);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewModel.refresh(reportedSpot, new ReportModel.CompleteListener() {
+                    @Override
+                    public void onComplete() {
+                        swipeRefresh.setRefreshing(false);
+                    }
+                });
+            }
+        });
         return view;
     }
 
@@ -93,7 +106,13 @@ public class SpotReportsListFragment extends Fragment {
             throw new RuntimeException("Parent activity must implement Delegate interface");
         }
 
-        viewModel= new ViewModelProvider(this).get(SpotReportsListViewModel.class);
+        viewModel = new ViewModelProvider(this).get(SpotReportsListViewModel.class);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        parent = null;
     }
 
     interface OnItemClickListener {
