@@ -4,18 +4,33 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "Users")
-public class User {
+public class User implements Serializable {
     @PrimaryKey
     @NonNull
     private String email;
+    private String imageUrl;
     private String firstName;
     private String lastName;
+    private long lastUpdated;
+
+    public User() {
+    }
 
     public User(String firstName, String lastName, @NonNull String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public long getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(long lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
     public String getFirstName() {
@@ -40,6 +55,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
 }

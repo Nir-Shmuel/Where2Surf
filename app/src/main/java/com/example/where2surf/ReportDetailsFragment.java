@@ -26,6 +26,8 @@ public class ReportDetailsFragment extends Fragment {
     TextView surfersNumTv;
     CheckedTextView spotContaminationCtv;
     RatingBar reliabilityRating;
+    Button editBtn;
+    Button deleteBtn;
 
     public ReportDetailsFragment() {
         // Required empty public constructor
@@ -43,11 +45,11 @@ public class ReportDetailsFragment extends Fragment {
         spotContaminationCtv = view.findViewById(R.id.report_details_is_contaminated_ctv);
         reliabilityRating = view.findViewById(R.id.report_details_rating_bar);
 
+        editBtn = view.findViewById(R.id.report_details_edit_btn);
+        deleteBtn = view.findViewById(R.id.report_details_delete_btn);
         report = ReportDetailsFragmentArgs.fromBundle(getArguments()).getReport();
-        updateView(report);
 
-        Button editBtn = view.findViewById(R.id.report_details_edit_btn);
-        Button deleteBtn = view.findViewById(R.id.report_details_delete_btn);
+        updateView(report);
 
         return view;
     }

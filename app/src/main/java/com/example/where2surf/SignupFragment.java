@@ -1,20 +1,29 @@
 package com.example.where2surf;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.provider.MediaStore;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+
+import com.example.where2surf.model.StoreModel;
+import com.example.where2surf.model.User;
+import com.example.where2surf.model.UserModel;
+import com.google.android.material.snackbar.Snackbar;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -24,8 +33,12 @@ import static android.app.Activity.RESULT_OK;
 public class SignupFragment extends Fragment {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int RESULT_SUCCESS = 0;
+    static final String REGISTRATION_FAILED_ERROR = "Registration failed. Please try again.";
+    static final String INVALID_FORM_ERROR = "Form not valid. Please try again.";
 
+    View view;
     ImageView image;
+    Bitmap imageBitmap;
     EditText emailEt;
     EditText firstNameEt;
     EditText lastNameEt;
@@ -33,6 +46,7 @@ public class SignupFragment extends Fragment {
     EditText valPedEt;
     Button takePhotoBtn;
     Button sendBtn;
+    ProgressBar progressbar;
 
     public SignupFragment() {
         // Required empty public constructor
@@ -47,7 +61,7 @@ public class SignupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_signup, container, false);
+        view = inflater.inflate(R.layout.fragment_signup, container, false);
 
         image = view.findViewById(R.id.signup_image);
         emailEt = view.findViewById(R.id.signup_email_et);
@@ -55,9 +69,9 @@ public class SignupFragment extends Fragment {
         lastNameEt = view.findViewById(R.id.signup_last_name_et);
         pwdEt = view.findViewById(R.id.signup_password_et);
         valPedEt = view.findViewById(R.id.signup_password_validation_et);
+        progressbar = view.findViewById(R.id.signup_progress);
+        progressbar.setVisibility(View.INVISIBLE);
         takePhotoBtn = view.findViewById(R.id.signup_take_photo_btn);
-        sendBtn = view.findViewById(R.id.signup_send_btn);
-
         takePhotoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,15 +79,77 @@ public class SignupFragment extends Fragment {
             }
         });
 
+        sendBtn = view.findViewById(R.id.signup_send_btn);
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity activity = (MainActivity) getActivity();
-                if (activity != null && validateForm())
-                    activity.createAccount(emailEt.getText().toString(), pwdEt.getText().toString());
+                hideKeyboard();
+                progressbar.setVisibility(View.VISIBLE);
+                takePhotoBtn.setClickable(false);
+                sendBtn.setClickable(false);
+                signUp();
             }
         });
+
         return view;
+    }
+
+    public void hideKeyboard() {
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    void signUp() {
+        if (imageBitmap != null) {
+            StoreModel.uploadImage(imageBitmap, "image_" + emailEt.getText().toString(), new StoreModel.Listener() {
+                @Override
+                public void onSuccess(final String url) {
+                    saveUser(url);
+                }
+
+                @Override
+                public void onFail() {
+                    registrationFailed(REGISTRATION_FAILED_ERROR);
+                }
+            });
+        } else
+            saveUser("");
+    }
+
+    private void saveUser(final String imageUrl) {
+        final MainActivity activity = (MainActivity) getActivity();
+        if (activity != null && validateForm()) {
+            final String email = emailEt.getText().toString();
+            final String pwd = pwdEt.getText().toString();
+            activity.createAccount(email, pwd, new UserModel.Listener<Boolean>() {
+                @Override
+                public void onComplete(Boolean data) {
+                    if (data) {
+                        User user = new User();
+                        user.setEmail(emailEt.getText().toString());
+                        user.setFirstName(firstNameEt.getText().toString());
+                        user.setLastName(lastNameEt.getText().toString());
+                        user.setImageUrl(imageUrl);
+                        UserModel.instance.addUser(user, null);
+                        Navigation.findNavController(view).navigateUp();
+                    } else {
+                        registrationFailed(INVALID_FORM_ERROR);
+                    }
+                }
+            });
+        } else {
+            registrationFailed(INVALID_FORM_ERROR);
+        }
+    }
+
+    private void registrationFailed(String errorMsg) {
+        progressbar.setVisibility(View.INVISIBLE);
+        Snackbar mySnackbar = Snackbar.make(view, errorMsg, Snackbar.LENGTH_LONG);
+        mySnackbar.show();
+        takePhotoBtn.setClickable(true);
+        sendBtn.setClickable(true);
     }
 
     private void takePhoto() {
@@ -89,7 +165,7 @@ public class SignupFragment extends Fragment {
             if (data != null) {
                 Bundle extras = data.getExtras();
                 if (extras != null) {
-                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    imageBitmap = (Bitmap) extras.get("data");
                     image.setImageBitmap(imageBitmap);
                 }
             }
@@ -118,7 +194,7 @@ public class SignupFragment extends Fragment {
     private boolean checkName(String name) {
         if (name == null)
             return false;
-        return name.trim().isEmpty();
+        return !name.trim().isEmpty();
     }
 
     private boolean checkPassword(String pwd, String valPwd) {

@@ -8,15 +8,19 @@
         android:title="Spots" />
     <group android:id="@+id/drawer_group_unregistered">
         <item
-            android:id="@id/loginFragment"
-            android:title="Login" />
+            android:id="@id/signinFragment"
+            android:title="Sign in" />
         <item
             android:id="@id/signupFragment"
-            android:title="Signup" />
+            android:title="Sign up" />
     </group>
     <group android:id="@+id/drawer_group_registered">
         <item
-
+            android:id="@+id/userProfileFragment"
             android:title="Profile" />
+        <item
+
+            android:id="@+id/signout"
+            android:title="Sign Out" />
     </group>
 </menu>

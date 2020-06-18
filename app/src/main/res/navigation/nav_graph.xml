@@ -44,19 +44,28 @@
 
 
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.where2surf.LoginFragment"
-        android:label="Login"
-        tools:layout="@layout/fragment_login" />
+        android:id="@+id/signinFragment"
+        android:name="com.example.where2surf.SigninFragment"
+        android:label="Sign In"
+        tools:layout="@layout/fragment_signin" />
     <fragment
         android:id="@+id/signupFragment"
         android:name="com.example.where2surf.SignupFragment"
-        android:label="Signup"
+        android:label="Sign Up"
         tools:layout="@layout/fragment_signup" />
     <action
         android:id="@+id/action_global_signupFragment"
         app:destination="@id/signupFragment" />
     <action
         android:id="@+id/action_global_loginFragment"
-        app:destination="@id/loginFragment" />
+        app:destination="@id/signinFragment" />
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.example.where2surf.UserProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_user_profile" >
+        <argument
+            android:name="user"
+            app:argType="com.example.where2surf.model.User" />
+    </fragment>
 </navigation>

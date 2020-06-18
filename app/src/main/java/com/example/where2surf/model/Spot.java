@@ -19,13 +19,6 @@ public class Spot implements Serializable {
     private boolean isWindProtected;
     long lastUpdated;
 
-    public long getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(long lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
 
     public Spot() {
     }
@@ -69,10 +62,18 @@ public class Spot implements Serializable {
         isWindProtected = windProtected;
     }
 
+    public long getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(long lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
     @SuppressLint("StaticFieldLeak")
     public void addReport(final Report report) {
         if (report != null)
-            new AsyncTask<String,String,String>(){
+            new AsyncTask<String, String, String>() {
 
                 @Override
                 protected String doInBackground(String... strings) {

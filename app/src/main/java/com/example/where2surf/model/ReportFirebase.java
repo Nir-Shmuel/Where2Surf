@@ -30,10 +30,28 @@ public class ReportFirebase {
         });
     }
 
-    static void getAllReports(Spot spot, long since, final ReportModel.Listener<List<Report>> listener) {
+    static void getAllReportsSince(Spot spot, long since, final ReportModel.Listener<List<Report>> listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Timestamp timestamp = new Timestamp(since, 0);
-        db.collection(REPORT_COLLECTION).whereGreaterThanOrEqualTo("lastUpdated", timestamp).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection(REPORT_COLLECTION).whereEqualTo("spotName",spot.getName()).whereGreaterThanOrEqualTo("lastUpdated", timestamp).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                List<Report> reports = null;
+                if (task.isSuccessful()) {
+                    reports = new LinkedList<>();
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                        Map<String, Object> json = doc.getData();
+                        Report report = reportFromJson(json);
+                        reports.add(report);
+                    }
+                }
+                listener.onComplete(reports);
+            }
+        });
+    }
+    static void getAllReports(Spot spot, final ReportModel.Listener<List<Report>> listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(REPORT_COLLECTION).whereEqualTo("spotName",spot.getName()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 List<Report> reports = null;

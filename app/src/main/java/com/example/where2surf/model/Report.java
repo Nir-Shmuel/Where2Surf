@@ -22,6 +22,20 @@ public class Report implements Serializable {
     private int reliabilityRating;
     private long lastUpdated;
 
+    public Report(String reporterName, String spotName, long date, String imageUrl, int wavesHeight, int windSpeed, int numOfSurfers, boolean isContaminated) {
+        this.reporterName = reporterName;
+        this.spotName = spotName;
+        this.date = date;
+        this.imageUrl = imageUrl;
+        this.wavesHeight = wavesHeight;
+        this.windSpeed = windSpeed;
+        this.numOfSurfers = numOfSurfers;
+        this.isContaminated = isContaminated;
+    }
+
+    public Report() {
+    }
+
     public long getLastUpdated() {
         return lastUpdated;
     }
@@ -47,20 +61,6 @@ public class Report implements Serializable {
         this.id = id;
     }
 
-
-    public Report(String reporterName, String spotName, long date, String imageUrl, int wavesHeight, int windSpeed, int numOfSurfers, boolean isContaminated) {
-        this.reporterName = reporterName;
-        this.spotName = spotName;
-        this.date = date;
-        this.imageUrl = imageUrl;
-        this.wavesHeight = wavesHeight;
-        this.windSpeed = windSpeed;
-        this.numOfSurfers = numOfSurfers;
-        this.isContaminated = isContaminated;
-    }
-
-    public Report() {
-    }
 
     public String getReporterName() {
         return reporterName;

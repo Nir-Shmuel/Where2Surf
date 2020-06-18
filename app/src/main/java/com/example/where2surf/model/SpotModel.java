@@ -14,6 +14,15 @@ import java.util.List;
 public class SpotModel {
     public static final SpotModel instance = new SpotModel();
 
+//        private SpotModel(){
+//        MyApplication.context.deleteDatabase("Where2SurfDb.db");
+//        for (int i = 0; i < 10; i++) {
+//            boolean p = i % 2 == 0;
+//            Spot spot = new Spot("spot " + i, "location " + i, p);
+//            spot.setId(""+i);
+//            addSpot(spot,null);
+//        }
+//    }
     public interface Listener<T> {
         void onComplete(T data);
     }
@@ -39,8 +48,8 @@ public class SpotModel {
                     @Override
                     protected String doInBackground(String... strings) {
                         long lastUpdated = 0;
-                        AppLocalDb.db.spotDao().insertAll(data.toArray(new Spot[data.size()]));
                         for (Spot spot : data) {
+                            AppLocalDb.db.spotDao().insertAll(spot);
                             if (spot.getLastUpdated() > lastUpdated)
                                 lastUpdated = spot.getLastUpdated();
                         }
