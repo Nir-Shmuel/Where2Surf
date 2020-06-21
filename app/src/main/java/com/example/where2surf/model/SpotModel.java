@@ -19,7 +19,6 @@ public class SpotModel {
 //        for (int i = 0; i < 10; i++) {
 //            boolean p = i % 2 == 0;
 //            Spot spot = new Spot("spot " + i, "location " + i, p);
-//            spot.setId(""+i);
 //            addSpot(spot,null);
 //        }
 //    }
@@ -40,7 +39,7 @@ public class SpotModel {
     public void refreshSpotsList(final CompleteListener listener) {
         long lastUpdated = MyApplication.context.getSharedPreferences("lastUpdated", Context.MODE_PRIVATE)
                 .getLong("SpotsLastUpdateDate", 0);
-        SpotFirebase.getAllSpots(lastUpdated, new Listener<List<Spot>>() {
+        SpotFirebase.getAllSpotsSince(lastUpdated, new Listener<List<Spot>>() {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onComplete(final List<Spot> data) {

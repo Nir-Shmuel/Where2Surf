@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.Navigation;
 
 import android.provider.MediaStore;
@@ -46,7 +47,7 @@ public class SignupFragment extends Fragment {
     EditText valPedEt;
     Button takePhotoBtn;
     Button sendBtn;
-    ProgressBar progressbar;
+    ProgressBar progressBar;
 
     public SignupFragment() {
         // Required empty public constructor
@@ -69,8 +70,8 @@ public class SignupFragment extends Fragment {
         lastNameEt = view.findViewById(R.id.signup_last_name_et);
         pwdEt = view.findViewById(R.id.signup_password_et);
         valPedEt = view.findViewById(R.id.signup_password_validation_et);
-        progressbar = view.findViewById(R.id.signup_progress);
-        progressbar.setVisibility(View.INVISIBLE);
+        progressBar = view.findViewById(R.id.signup_progress);
+        progressBar.setVisibility(View.INVISIBLE);
         takePhotoBtn = view.findViewById(R.id.signup_take_photo_btn);
         takePhotoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +85,7 @@ public class SignupFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 hideKeyboard();
-                progressbar.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
                 takePhotoBtn.setClickable(false);
                 sendBtn.setClickable(false);
                 signUp();
@@ -103,7 +104,7 @@ public class SignupFragment extends Fragment {
 
     void signUp() {
         if (imageBitmap != null) {
-            StoreModel.uploadImage(imageBitmap, "image_" + emailEt.getText().toString(), new StoreModel.Listener() {
+            StoreModel.uploadUserImage(imageBitmap, emailEt.getText().toString(), new StoreModel.Listener() {
                 @Override
                 public void onSuccess(final String url) {
                     saveUser(url);
@@ -145,7 +146,7 @@ public class SignupFragment extends Fragment {
     }
 
     private void registrationFailed(String errorMsg) {
-        progressbar.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
         Snackbar mySnackbar = Snackbar.make(view, errorMsg, Snackbar.LENGTH_LONG);
         mySnackbar.show();
         takePhotoBtn.setClickable(true);
@@ -154,7 +155,7 @@ public class SignupFragment extends Fragment {
 
     private void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+        if (getActivity() != null && intent.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
         }
     }

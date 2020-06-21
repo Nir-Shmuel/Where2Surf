@@ -13,7 +13,6 @@ import java.io.Serializable;
 public class Spot implements Serializable {
     @PrimaryKey
     @NonNull
-    private String id;
     private String name;
     private String location;
     private boolean isWindProtected;
@@ -23,26 +22,19 @@ public class Spot implements Serializable {
     public Spot() {
     }
 
-    public Spot(String name, String location, boolean isWindProtected) {
+    public Spot(@NonNull String name, String location, boolean isWindProtected) {
         this.name = name;
         this.location = location;
         this.isWindProtected = isWindProtected;
     }
 
+
     @NonNull
-    public String getId() {
-        return id;
-    }
-
-    public void setId(@NonNull String id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 

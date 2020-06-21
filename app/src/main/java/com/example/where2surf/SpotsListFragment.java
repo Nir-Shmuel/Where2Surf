@@ -140,8 +140,8 @@ public class SpotsListFragment extends Fragment {
         }
 
         void bind(Spot spot) {
-            name.setText(String.format("Name: %s", spot.getName()));
-            location.setText(String.format("Location: %s", spot.getLocation()));
+            name.setText(spot.getName());
+            location.setText(spot.getLocation());
             isWindProtected.setChecked(spot.isWindProtected());
         }
     }

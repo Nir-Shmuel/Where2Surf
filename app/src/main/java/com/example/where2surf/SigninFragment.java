@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.example.where2surf.model.UserModel;
 
@@ -23,6 +24,8 @@ public class SigninFragment extends Fragment {
     View view;
     EditText usernameEt;
     EditText pwdEt;
+    Button sendBtn;
+    ProgressBar progressBar;
 
     public SigninFragment() {
         // Required empty public constructor
@@ -42,19 +45,26 @@ public class SigninFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_signin, container, false);
         usernameEt = view.findViewById(R.id.signin_username_et);
         pwdEt = view.findViewById(R.id.signin_password_et);
-        Button sendBtn = view.findViewById(R.id.signin_send_btn);
+        progressBar = view.findViewById(R.id.signin_loading);
+        sendBtn = view.findViewById(R.id.signin_send_btn);
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hideKeyboard();
+
                 MainActivity activity = (MainActivity) getActivity();
                 if (activity != null && validateForm()) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    sendBtn.setClickable(false);
                     activity.signIn(usernameEt.getText().toString(), pwdEt.getText().toString(), new UserModel.Listener<Boolean>() {
                         @Override
                         public void onComplete(Boolean data) {
-                            if(data) {
+                            if (data) {
                                 Navigation.findNavController(view).navigateUp();
+                            } else {
+                                progressBar.setVisibility(View.INVISIBLE);
+                                sendBtn.setClickable(true);
                             }
                         }
                     });

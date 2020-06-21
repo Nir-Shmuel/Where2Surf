@@ -24,7 +24,8 @@
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/signin_password_et"
@@ -40,7 +41,8 @@
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signin_username_et" />
+        app:layout_constraintTop_toBottomOf="@+id/signin_username_et"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/signin_send_btn"
@@ -60,7 +62,7 @@
         app:layout_constraintVertical_bias="0.2" />
 
     <ProgressBar
-        android:id="@+id/loading"
+        android:id="@+id/signin_loading"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

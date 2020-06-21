@@ -2,7 +2,6 @@ package com.example.where2surf;
 
 import android.os.Bundle;
 
-import androidx.annotation.DrawableRes;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.where2surf.model.Report;
 import com.example.where2surf.model.User;
 import com.example.where2surf.model.UserModel;
 import com.squareup.picasso.Picasso;
@@ -42,7 +40,7 @@ public class UserProfileFragment extends Fragment {
         lastNameTv = view.findViewById(R.id.profile_last_name_tv);
         progressBar = view.findViewById(R.id.profile_loading);
         hideView();
-        UserModel.instance.getCurrentUser(new UserModel.Listener<User>() {
+        UserModel.instance.getCurrentUserDetails(new UserModel.Listener<User>() {
             @Override
             public void onComplete(User data) {
                 updateView(data);

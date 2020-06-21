@@ -22,7 +22,6 @@ public class ReportModel {
 //            for (int j = 0; j < 10; j++) {
 //                Report r = new Report("reporter " + i + j, "spot " + i, 1, "", 1, 1, 0, i % 2 == 0);
 //                r.setReliabilityRating(j % 5);
-//                r.setId(""+i+j);
 //                addReport(r,null);
 //            }
 //

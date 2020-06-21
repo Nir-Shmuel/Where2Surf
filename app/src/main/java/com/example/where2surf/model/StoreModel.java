@@ -23,9 +23,17 @@ public class StoreModel {
         void onFail();
     }
 
-    public static void uploadImage(Bitmap imageBmp, String name, final Listener listener) {
+    public static void uploadUserImage(Bitmap imageBmp, String userName, final Listener listener) {
+        uploadImage(imageBmp, "image_" + userName, listener, USER_IMAGES);
+    }
+
+    public static void uploadReportImage(Bitmap imageBmp, String userName, final Listener listener) {
+        uploadImage(imageBmp, "report_" + userName, listener, REPORT_IMAGES);
+    }
+
+    private static void uploadImage(Bitmap imageBmp, String name, final Listener listener, String folder) {
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-        final StorageReference imageReference = firebaseStorage.getReference().child(USER_IMAGES).child(name);
+        final StorageReference imageReference = firebaseStorage.getReference().child(folder).child(name);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imageBmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();

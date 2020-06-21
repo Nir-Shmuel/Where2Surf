@@ -4,24 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ReportDetailsFragment" >
+    tools:context=".ReportDetailsFragment">
 
     <ImageView
         android:id="@+id/report_details_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="118dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="?android:attr/actionBarSize"
+        android:layout_marginEnd="24dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/report_details_waves_height_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@android:mipmap/sym_def_app_icon" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/report_details_waves_height_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="TextView"
+        android:text=""
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/report_details_image"
         app:layout_constraintStart_toStartOf="@+id/report_details_image"
@@ -32,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="TextView"
+        android:text=""
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/report_details_waves_height_tv"
         app:layout_constraintStart_toStartOf="@+id/report_details_waves_height_tv"
@@ -43,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="TextView"
+        android:text=""
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/report_details_wind_speed_tv"
         app:layout_constraintStart_toStartOf="@+id/report_details_wind_speed_tv"
@@ -54,9 +57,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="Contiminated?"
-        android:textSize="20sp"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:text="@string/report_details_contaminated_cb"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/report_details_surfers_num_tv"
         app:layout_constraintStart_toStartOf="@+id/report_details_surfers_num_tv"
         app:layout_constraintTop_toBottomOf="@+id/report_details_surfers_num_tv" />
@@ -66,7 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="Report reliability:"
+        android:text="@string/report_details_reliability"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/report_details_is_contaminated_ctv"
@@ -94,7 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="Edit"
+        android:text="@string/report_details_edit_btn"
         app:layout_constraintEnd_toEndOf="@+id/report_details_rating_bar"
         app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toEndOf="@+id/report_details_delete_btn"
@@ -105,7 +108,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="Delete"
+        android:text="@string/report_details_delete_btn"
         app:layout_constraintStart_toStartOf="@+id/report_details_rating_bar"
         app:layout_constraintTop_toBottomOf="@+id/report_details_rating_bar" />
 

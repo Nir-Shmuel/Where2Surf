@@ -6,13 +6,13 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity(tableName = "Reports")
+@Entity(tableName = "Reports", primaryKeys = {"reporterName", "spotName", "date"})
 public class Report implements Serializable {
-    @PrimaryKey
     @NonNull
-    private String id;
     private String reporterName;
+    @NonNull
     private String spotName;
+    @NonNull
     private long date;
     private String imageUrl;
     private int wavesHeight;
@@ -22,7 +22,7 @@ public class Report implements Serializable {
     private int reliabilityRating;
     private long lastUpdated;
 
-    public Report(String reporterName, String spotName, long date, String imageUrl, int wavesHeight, int windSpeed, int numOfSurfers, boolean isContaminated) {
+    public Report(@NonNull String reporterName, @NonNull String spotName, long date, String imageUrl, int wavesHeight, int windSpeed, int numOfSurfers, boolean isContaminated) {
         this.reporterName = reporterName;
         this.spotName = spotName;
         this.date = date;
@@ -31,9 +31,11 @@ public class Report implements Serializable {
         this.windSpeed = windSpeed;
         this.numOfSurfers = numOfSurfers;
         this.isContaminated = isContaminated;
+        this.reliabilityRating = 0;
     }
 
     public Report() {
+        this.reliabilityRating = 0;
     }
 
     public long getLastUpdated() {
@@ -44,29 +46,21 @@ public class Report implements Serializable {
         this.lastUpdated = lastUpdated;
     }
 
+    @NonNull
     public String getSpotName() {
         return spotName;
     }
 
-    public void setSpotName(String spotName) {
+    public void setSpotName(@NonNull String spotName) {
         this.spotName = spotName;
     }
 
     @NonNull
-    public String getId() {
-        return id;
-    }
-
-    public void setId(@NonNull String id) {
-        this.id = id;
-    }
-
-
     public String getReporterName() {
         return reporterName;
     }
 
-    public void setReporterName(String reporterName) {
+    public void setReporterName(@NonNull String reporterName) {
         this.reporterName = reporterName;
     }
 

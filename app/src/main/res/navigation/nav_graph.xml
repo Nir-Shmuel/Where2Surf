@@ -13,7 +13,11 @@
         android:id="@+id/spotsListFragment"
         android:name="com.example.where2surf.SpotsListFragment"
         android:label="Spots List"
-        tools:layout="@layout/fragment_spots_list" />
+        tools:layout="@layout/fragment_spots_list" >
+        <action
+            android:id="@+id/action_spotsListFragment_to_spotReportListFragment"
+            app:destination="@id/spotReportListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/spotReportListFragment"
         android:name="com.example.where2surf.SpotReportsListFragment"
@@ -22,13 +26,16 @@
         <argument
             android:name="spot"
             app:argType="com.example.where2surf.model.Spot" />
+        <action
+            android:id="@+id/action_spotReportListFragment_to_addReportFragment"
+            app:destination="@id/addReportFragment" />
+        <action
+            android:id="@+id/action_spotReportListFragment_to_reportDetailsFragment"
+            app:destination="@id/reportDetailsFragment" />
     </fragment>
     <action
         android:id="@+id/action_global_spotsListFragment"
         app:destination="@id/spotsListFragment" />
-    <action
-        android:id="@+id/action_global_spotReportListFragment"
-        app:destination="@id/spotReportListFragment" />
     <fragment
         android:id="@+id/reportDetailsFragment"
         android:name="com.example.where2surf.ReportDetailsFragment"
@@ -38,9 +45,6 @@
             android:name="report"
             app:argType="com.example.where2surf.model.Report" />
     </fragment>
-    <action
-        android:id="@+id/action_global_reportDetailsFragment"
-        app:destination="@id/reportDetailsFragment" />
 
 
     <fragment
@@ -67,5 +71,14 @@
         <argument
             android:name="user"
             app:argType="com.example.where2surf.model.User" />
+    </fragment>
+    <fragment
+        android:id="@+id/addReportFragment"
+        android:name="com.example.where2surf.AddReportFragment"
+        android:label="Add report"
+        tools:layout="@layout/fragment_add_report" >
+        <argument
+            android:name="spot"
+            app:argType="com.example.where2surf.model.Spot" />
     </fragment>
 </navigation>
