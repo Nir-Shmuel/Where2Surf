@@ -1,115 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ReportDetailsFragment">
 
-    <ImageView
-        android:id="@+id/report_details_image"
-        android:layout_width="0dp"
-        android:layout_height="118dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="?android:attr/actionBarSize"
-        android:layout_marginEnd="24dp"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@+id/report_details_waves_height_tv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/report_details_waves_height_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text=""
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/report_details_image"
-        app:layout_constraintStart_toStartOf="@+id/report_details_image"
-        app:layout_constraintTop_toBottomOf="@+id/report_details_image" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/report_details_wind_speed_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text=""
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/report_details_waves_height_tv"
-        app:layout_constraintStart_toStartOf="@+id/report_details_waves_height_tv"
-        app:layout_constraintTop_toBottomOf="@+id/report_details_waves_height_tv" />
+            <ImageView
+                android:id="@+id/report_details_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="?android:attr/actionBarSize"
+                android:layout_marginEnd="24dp"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/report_details_surfers_num_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text=""
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/report_details_wind_speed_tv"
-        app:layout_constraintStart_toStartOf="@+id/report_details_wind_speed_tv"
-        app:layout_constraintTop_toBottomOf="@+id/report_details_wind_speed_tv" />
+            <Button
+                android:id="@+id/report_details_take_photo_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/take_photo_btn"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/report_details_image"
+                app:layout_constraintStart_toStartOf="@+id/report_details_image"
+                app:layout_constraintTop_toBottomOf="@+id/report_details_image" />
 
-    <CheckedTextView
-        android:id="@+id/report_details_is_contaminated_ctv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:text="@string/report_details_contaminated_cb"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/report_details_surfers_num_tv"
-        app:layout_constraintStart_toStartOf="@+id/report_details_surfers_num_tv"
-        app:layout_constraintTop_toBottomOf="@+id/report_details_surfers_num_tv" />
+            <TextView
+                android:id="@+id/report_details_waves_height_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:text="@string/report_details_waves_height"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="@+id/report_details_take_photo_btn"
+                app:layout_constraintStart_toStartOf="@+id/report_details_take_photo_btn"
+                app:layout_constraintTop_toBottomOf="@+id/report_details_take_photo_btn" />
 
-    <TextView
-        android:id="@+id/report_details_rating_bar_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="@string/report_details_reliability"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/report_details_is_contaminated_ctv"
-        app:layout_constraintStart_toStartOf="@+id/report_details_is_contaminated_ctv"
-        app:layout_constraintTop_toBottomOf="@+id/report_details_is_contaminated_ctv" />
+            <EditText
+                android:id="@+id/report_details_waves_height_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/report_details_waves_height"
+                android:inputType="numberDecimal"
+                android:selectAllOnFocus="true"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@+id/report_details_waves_height_tv"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/report_details_waves_height_tv"
+                app:layout_constraintTop_toBottomOf="@+id/report_details_waves_height_tv" />
 
-    <RatingBar
-        android:id="@+id/report_details_rating_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:isIndicator="true"
-        android:max="5"
-        android:numStars="5"
-        android:rating="1"
-        android:stepSize="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/report_details_rating_bar_tv"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="@+id/report_details_rating_bar_tv"
-        app:layout_constraintTop_toBottomOf="@+id/report_details_rating_bar_tv"
-        app:layout_constraintVertical_bias="0.048" />
+            <TextView
+                android:id="@+id/report_details_wind_speed_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:text="@string/report_details_wind_speed"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="@+id/report_details_waves_height_et"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/report_details_waves_height_et"
+                app:layout_constraintTop_toBottomOf="@+id/report_details_waves_height_et" />
 
-    <Button
-        android:id="@+id/report_details_edit_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="@string/report_details_edit_btn"
-        app:layout_constraintEnd_toEndOf="@+id/report_details_rating_bar"
-        app:layout_constraintHorizontal_bias="0.8"
-        app:layout_constraintStart_toEndOf="@+id/report_details_delete_btn"
-        app:layout_constraintTop_toBottomOf="@+id/report_details_rating_bar" />
+            <EditText
+                android:id="@+id/report_details_wind_speed_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/report_details_wind_speed"
+                android:inputType="numberDecimal"
+                android:selectAllOnFocus="true"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@+id/report_details_wind_speed_tv"
+                app:layout_constraintStart_toStartOf="@+id/report_details_wind_speed_tv"
+                app:layout_constraintTop_toBottomOf="@+id/report_details_wind_speed_tv" />
 
-    <Button
-        android:id="@+id/report_details_delete_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="@string/report_details_delete_btn"
-        app:layout_constraintStart_toStartOf="@+id/report_details_rating_bar"
-        app:layout_constraintTop_toBottomOf="@+id/report_details_rating_bar" />
+            <TextView
+                android:id="@+id/report_details_num_of_surfers_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:text="@string/report_details_num_of_surfers"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="@+id/report_details_wind_speed_et"
+                app:layout_constraintStart_toStartOf="@+id/report_details_wind_speed_et"
+                app:layout_constraintTop_toBottomOf="@+id/report_details_wind_speed_et" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <EditText
+                android:id="@+id/report_details_surfers_num_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="@string/report_details_num_of_surfers"
+                android:inputType="numberDecimal"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@+id/report_details_num_of_surfers_tv"
+                app:layout_constraintStart_toStartOf="@+id/report_details_num_of_surfers_tv"
+                app:layout_constraintTop_toBottomOf="@+id/report_details_num_of_surfers_tv" />
+
+            <TextView
+                android:id="@+id/report_details_is_contaminated_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/add_report_contaminated_cb"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="@+id/report_details_surfers_num_et"
+                app:layout_constraintTop_toBottomOf="@+id/report_details_surfers_num_et" />
+
+            <CheckBox
+                android:id="@+id/report_details_is_contaminated_cb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@+id/report_details_surfers_num_et"
+                app:layout_constraintStart_toEndOf="@+id/report_details_is_contaminated_tv"
+                app:layout_constraintTop_toBottomOf="@+id/report_details_surfers_num_et" />
+
+            <TextView
+                android:id="@+id/report_details_rating_bar_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/report_details_reliability"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/report_details_is_contaminated_cb"
+                app:layout_constraintStart_toStartOf="@+id/report_details_is_contaminated_tv"
+                app:layout_constraintTop_toBottomOf="@+id/report_details_is_contaminated_tv" />
+
+            <RatingBar
+                android:id="@+id/report_details_rating_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:max="5"
+                android:numStars="5"
+                android:rating="1"
+                android:stepSize="1"
+                app:layout_constraintEnd_toEndOf="@+id/report_details_rating_bar_tv"
+                app:layout_constraintStart_toStartOf="@+id/report_details_rating_bar_tv"
+                app:layout_constraintTop_toBottomOf="@+id/report_details_rating_bar_tv" />
+
+            <Button
+                android:id="@+id/report_details_send_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="24dp"
+                android:text="@string/report_details_send_btn"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/report_details_rating_bar" />
+
+            <ProgressBar
+                android:id="@+id/report_details_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

@@ -1,7 +1,5 @@
 package com.example.where2surf.model;
 
-import androidx.lifecycle.LiveData;
-
 public class UserModel {
 
     public static final UserModel instance = new UserModel();
@@ -22,15 +20,22 @@ public class UserModel {
         UserFirebase.getCurrentUserDetails(listener);
     }
 
-    public void signIn(String email, String password, Listener<Boolean> listener){
-        UserFirebase.signIn(email,password,listener);
+    public String getCurrentUserId() {
+        return UserFirebase.getCurrentUserId();
     }
-    public void signUp(String email, String password, Listener<Boolean> listener){
-        UserFirebase.singUp(email,password,listener);
+
+    public void signIn(String email, String password, Listener<Boolean> listener) {
+        UserFirebase.signIn(email, password, listener);
     }
-    public void signOut(){
+
+    public void signUp(String email, String password, Listener<Boolean> listener) {
+        UserFirebase.singUp(email, password, listener);
+    }
+
+    public void signOut() {
         UserFirebase.signOut();
     }
+
     public boolean isSignedIn() {
         return UserFirebase.isSignedIn();
     }

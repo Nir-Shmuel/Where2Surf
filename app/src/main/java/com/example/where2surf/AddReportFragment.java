@@ -34,6 +34,7 @@ import static android.app.Activity.RESULT_OK;
 public class AddReportFragment extends Fragment {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static String REPORT_FAILED_ERROR = "Failed to report. Please try again.";
+    private static String SAVE_IMAGE_FAILED_ERROR = "Failed to save image. Please try again by editing your report.";
     private static final String INVALID_FORM_ERROR = "Form not valid. Please fill all fields.";
 
     View view;
@@ -86,7 +87,7 @@ public class AddReportFragment extends Fragment {
                 progressBar.setVisibility(View.VISIBLE);
                 takePhotoBtn.setClickable(false);
                 sendBtn.setClickable(false);
-                report();
+                saveReport();
             }
         });
         return view;
@@ -102,13 +103,22 @@ public class AddReportFragment extends Fragment {
         return field != null && !field.trim().isEmpty();
     }
 
-    private void report() {
+    private void saveImage(final String reportId) {
         if (imageBitmap != null) {
-
-            StoreModel.uploadReportImage(imageBitmap, spot.getName(), new StoreModel.Listener() {
+            StoreModel.uploadReportImage(imageBitmap, reportId, new StoreModel.Listener() {
                 @Override
                 public void onSuccess(String url) {
-                    saveReport(url);
+                    ReportModel.instance.setReportImageUrl(reportId, url, new ReportModel.Listener<Boolean>() {
+                        @Override
+                        public void onComplete(Boolean data) {
+                            if (data) {
+                                ReportModel.instance.refreshSpotReportsList(spot, null);
+                                Navigation.findNavController(view).navigateUp();
+                            } else {
+                                reportFailed(SAVE_IMAGE_FAILED_ERROR);
+                            }
+                        }
+                    });
                 }
 
                 @Override
@@ -117,14 +127,13 @@ public class AddReportFragment extends Fragment {
                 }
             });
         } else {
-            saveReport("");
+            ReportModel.instance.refreshSpotReportsList(spot, null);
+            Navigation.findNavController(view).navigateUp();
         }
-
     }
 
-    private void saveReport(final String imageUrl) {
-        final MainActivity activity = (MainActivity) getActivity();
-        if (activity != null && validateForm()) {
+    private void saveReport() {
+        if (validateForm()) {
             UserModel.instance.getCurrentUserDetails(new UserModel.Listener<User>() {
                 @Override
                 public void onComplete(User data) {
@@ -135,12 +144,12 @@ public class AddReportFragment extends Fragment {
                     report.setWindSpeed(Integer.parseInt(windSpeedEt.getText().toString()));
                     report.setNumOfSurfers(Integer.parseInt(numOfSurfersEt.getText().toString()));
                     report.setContaminated(spotContaminationCtv.isChecked());
-                    report.setImageUrl(imageUrl);
-                    ReportModel.instance.addReport(report, new ReportModel.Listener<Boolean>() {
+                    report.setImageUrl("");
+                    ReportModel.instance.addReport(report, new ReportModel.Listener<Report>() {
                         @Override
-                        public void onComplete(Boolean data) {
-                            if (data) {
-                                Navigation.findNavController(view).navigateUp();
+                        public void onComplete(Report data) {
+                            if (data != null) {
+                                saveImage(data.getId());
                             } else {
                                 reportFailed(REPORT_FAILED_ERROR);
                             }

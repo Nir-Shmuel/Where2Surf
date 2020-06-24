@@ -104,6 +104,7 @@ public class SpotReportsListFragment extends Fragment {
                     @Override
                     public void onComplete() {
                         swipeRefresh.setRefreshing(false);
+                        adapter.notifyDataSetChanged();
                     }
                 });
             }
@@ -132,12 +133,12 @@ public class SpotReportsListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.spot_report_list_menu,menu);
+        inflater.inflate(R.menu.spot_report_list_menu, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_spot_report_list_add:
                 Navigation.findNavController(view).navigate(SpotReportsListFragmentDirections.actionSpotReportListFragmentToAddReportFragment(reportedSpot));
                 return true;
@@ -181,7 +182,7 @@ public class SpotReportsListFragment extends Fragment {
             reporterNameTv.setText(String.format("Reported by: %s", report.getReporterName()));
             wavesHeightTv.setText(String.format("Waves: %s cm", report.getWavesHeight()));
             windSpeedTv.setText(String.format("Wind: %s knots", report.getWindSpeed()));
-            dateTv.setText(String.format("%s",SimpleDateFormat.getDateInstance().format(report.getDate())));
+            dateTv.setText(String.format("%s", SimpleDateFormat.getDateInstance().format(report.getDate())));
             reportRating.setRating(report.getReliabilityRating());
         }
     }

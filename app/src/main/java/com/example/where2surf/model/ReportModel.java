@@ -15,18 +15,6 @@ public class ReportModel {
     List<Report> reports;
     public static final ReportModel instance = new ReportModel();
 
-
-//        private ReportModel(){
-//        for (int i = 0; i < 10; i++) {
-//            boolean p = i % 2 == 0;
-//            for (int j = 0; j < 10; j++) {
-//                Report r = new Report("reporter " + i + j, "spot " + i, 1, "", 1, 1, 0, i % 2 == 0);
-//                r.setReliabilityRating(j % 5);
-//                addReport(r,null);
-//            }
-//
-//        }
-//    }
     public interface Listener<T> {
         void onComplete(T data);
     }
@@ -44,40 +32,61 @@ public class ReportModel {
     public void refreshSpotReportsList(final Spot spot, final CompleteListener listener) {
         long lastUpdated = MyApplication.context.getSharedPreferences("lastUpdated", Context.MODE_PRIVATE)
                 .getLong("ReportsLastUpdateDate", 0);
-        ReportFirebase.getAllReports(spot, new Listener<List<Report>>() {
-//        ReportFirebase.getAllReportsSince(spot, lastUpdated, new Listener<List<Report>>() {
+        ReportFirebase.getAllReportsSince(spot, lastUpdated, new Listener<List<Report>>() {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onComplete(final List<Report> data) {
-                    new AsyncTask<String, String, String>() {
-                        @Override
-                        protected String doInBackground(String... strings) {
-                            long lastUpdated = 0;
-                            if (data != null) {
-                                for (Report report : data) {
-                                    AppLocalDb.db.reportDao().insertAll(report);
-                                    if (report.getLastUpdated() > lastUpdated)
-                                        lastUpdated = report.getLastUpdated();
-                                }
-                                SharedPreferences.Editor editor = MyApplication.context.getSharedPreferences("lastUpdated", Context.MODE_PRIVATE).edit();
-                                editor.putLong("ReportsLastUpdateDate", lastUpdated).commit();
+                new AsyncTask<String, String, String>() {
+                    @Override
+                    protected String doInBackground(String... strings) {
+                        long lastUpdated = 0;
+                        if (data != null) {
+                            for (Report report : data) {
+                                AppLocalDb.db.reportDao().insertAll(report);
+                                if (report.getLastUpdated() > lastUpdated)
+                                    lastUpdated = report.getLastUpdated();
                             }
-                            return "";
+                            SharedPreferences.Editor editor = MyApplication.context.getSharedPreferences("lastUpdated", Context.MODE_PRIVATE).edit();
+                            editor.putLong("ReportsLastUpdateDate", lastUpdated).commit();
                         }
+                        return "";
+                    }
 
-                        @Override
-                        protected void onPostExecute(String s) {
-                            super.onPostExecute(s);
-                            if (listener != null) listener.onComplete();
-                        }
-                    }.execute();
+                    @Override
+                    protected void onPostExecute(String s) {
+                        super.onPostExecute(s);
+                        if (listener != null) listener.onComplete();
+                    }
+                }.execute();
 
             }
         });
     }
 
-    public void addReport(Report report, Listener<Boolean> listener) {
+    public void addReport(final Report report, final Listener<Report> listener) {
         ReportFirebase.addReport(report, listener);
+    }
+
+    public void updateReport(Report report, Listener<Boolean> listener) {
+        ReportFirebase.updateReport(report, listener);
+    }
+
+    public void setReportImageUrl(String reportId, String imageUrl, Listener<Boolean> listener) {
+        ReportFirebase.setReportImageUrl(reportId, imageUrl, listener);
+    }
+
+    @SuppressLint("StaticFieldLeak")
+
+    public void deleteReport(final Report report, Listener<Boolean> listener) {
+        ReportFirebase.deleteReport(report, listener);
+        new AsyncTask<String, String, String>() {
+            @Override
+            protected String doInBackground(String... strings) {
+                AppLocalDb.db.reportDao().delete(report);
+                return null;
+            }
+        }.execute();
+
     }
 
     public void getAllReports(User user, final ReportModel.Listener<Report> listener) {

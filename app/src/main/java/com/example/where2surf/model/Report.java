@@ -6,8 +6,13 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity(tableName = "Reports", primaryKeys = {"reporterName", "spotName", "date"})
+@Entity(tableName = "Reports")
 public class Report implements Serializable {
+    @PrimaryKey
+    @NonNull
+    private String id;
+    @NonNull
+    private String reporterId;
     @NonNull
     private String reporterName;
     @NonNull
@@ -21,21 +26,28 @@ public class Report implements Serializable {
     private boolean isContaminated;
     private int reliabilityRating;
     private long lastUpdated;
-
-    public Report(@NonNull String reporterName, @NonNull String spotName, long date, String imageUrl, int wavesHeight, int windSpeed, int numOfSurfers, boolean isContaminated) {
-        this.reporterName = reporterName;
-        this.spotName = spotName;
-        this.date = date;
-        this.imageUrl = imageUrl;
-        this.wavesHeight = wavesHeight;
-        this.windSpeed = windSpeed;
-        this.numOfSurfers = numOfSurfers;
-        this.isContaminated = isContaminated;
-        this.reliabilityRating = 0;
-    }
+    private boolean isDeleted;
 
     public Report() {
         this.reliabilityRating = 0;
+    }
+
+    @NonNull
+    public String getId() {
+        return id;
+    }
+
+    public void setId(@NonNull String id) {
+        this.id = id;
+    }
+
+    @NonNull
+    public String getReporterId() {
+        return reporterId;
+    }
+
+    public void setReporterId(@NonNull String reporterId) {
+        this.reporterId = reporterId;
     }
 
     public long getLastUpdated() {
@@ -122,4 +134,11 @@ public class Report implements Serializable {
         this.reliabilityRating = Math.min(5, reliabilityRating);
     }
 
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
 }

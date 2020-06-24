@@ -54,7 +54,7 @@ public class SpotFirebase {
     static void getAllSpotsSince(long since, final SpotModel.Listener<List<Spot>> listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Timestamp timestamp = new Timestamp(new Date(since));
-        db.collection(SPOT_COLLECTION).whereGreaterThanOrEqualTo("lastUpdated", since).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection(SPOT_COLLECTION).whereGreaterThanOrEqualTo("lastUpdated", timestamp).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 List<Spot> spots = null;

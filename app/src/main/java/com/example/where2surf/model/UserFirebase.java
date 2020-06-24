@@ -1,11 +1,9 @@
 package com.example.where2surf.model;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.where2surf.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -19,7 +17,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executor;
 
 public class UserFirebase {
     private final static String USER_COLLECTION = "Users";
@@ -75,7 +72,7 @@ public class UserFirebase {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     DocumentSnapshot taskResult = task.getResult();
-                    if(taskResult!=null) {
+                    if (taskResult != null) {
                         Map<String, Object> data = taskResult.getData();
                         if (data != null) {
                             listener.onComplete(userFromJson(data));
@@ -119,5 +116,12 @@ public class UserFirebase {
                         listener.onComplete(task.isSuccessful());
                     }
                 });
+    }
+
+    public static String getCurrentUserId() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null)
+            return firebaseUser.getUid();
+        return null;
     }
 }

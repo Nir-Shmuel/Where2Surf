@@ -13,7 +13,7 @@
         android:id="@+id/spotsListFragment"
         android:name="com.example.where2surf.SpotsListFragment"
         android:label="Spots List"
-        tools:layout="@layout/fragment_spots_list" >
+        tools:layout="@layout/fragment_spots_list">
         <action
             android:id="@+id/action_spotsListFragment_to_spotReportListFragment"
             app:destination="@id/spotReportListFragment" />
@@ -67,7 +67,7 @@
         android:id="@+id/userProfileFragment"
         android:name="com.example.where2surf.UserProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_user_profile" >
+        tools:layout="@layout/fragment_user_profile">
         <argument
             android:name="user"
             app:argType="com.example.where2surf.model.User" />
@@ -76,9 +76,14 @@
         android:id="@+id/addReportFragment"
         android:name="com.example.where2surf.AddReportFragment"
         android:label="Add report"
-        tools:layout="@layout/fragment_add_report" >
+        tools:layout="@layout/fragment_add_report">
         <argument
             android:name="spot"
             app:argType="com.example.where2surf.model.Spot" />
+        <argument
+            android:name="report"
+            android:defaultValue="@null"
+            app:argType="com.example.where2surf.model.Report"
+            app:nullable="true" />
     </fragment>
 </navigation>

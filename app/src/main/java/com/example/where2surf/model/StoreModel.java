@@ -27,8 +27,8 @@ public class StoreModel {
         uploadImage(imageBmp, "image_" + userName, listener, USER_IMAGES);
     }
 
-    public static void uploadReportImage(Bitmap imageBmp, String userName, final Listener listener) {
-        uploadImage(imageBmp, "report_" + userName, listener, REPORT_IMAGES);
+    public static void uploadReportImage(Bitmap imageBmp, String reportId, final Listener listener) {
+        uploadImage(imageBmp, "report_" + reportId, listener, REPORT_IMAGES);
     }
 
     private static void uploadImage(Bitmap imageBmp, String name, final Listener listener, String folder) {
