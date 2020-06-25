@@ -63,6 +63,44 @@ public class ReportModel {
         });
     }
 
+    public LiveData<List<Report>> getUserReports(String userId) {
+        LiveData<List<Report>> liveData = AppLocalDb.db.reportDao().getUserReports(userId);
+        refreshUserReportsList(userId, null);
+        return liveData;
+    }
+
+    public void refreshUserReportsList(String userId, final CompleteListener listener){
+        long lastUpdated = MyApplication.context.getSharedPreferences("lastUpdated", Context.MODE_PRIVATE)
+                .getLong("ReportsLastUpdateDate", 0);
+        ReportFirebase.getAllUserReportsSince(userId, lastUpdated, new Listener<List<Report>>() {
+            @SuppressLint("StaticFieldLeak")
+            @Override
+            public void onComplete(final List<Report> data) {
+                new AsyncTask<String, String, String>() {
+                    @Override
+                    protected String doInBackground(String... strings) {
+                        long lastUpdated = 0;
+                        if (data != null) {
+                            for (Report report : data) {
+                                AppLocalDb.db.reportDao().insertAll(report);
+                                if (report.getLastUpdated() > lastUpdated)
+                                    lastUpdated = report.getLastUpdated();
+                            }
+                            SharedPreferences.Editor editor = MyApplication.context.getSharedPreferences("lastUpdated", Context.MODE_PRIVATE).edit();
+                            editor.putLong("ReportsLastUpdateDate", lastUpdated).commit();
+                        }
+                        return "";
+                    }
+
+                    @Override
+                    protected void onPostExecute(String s) {
+                        super.onPostExecute(s);
+                        if (listener != null) listener.onComplete();
+                    }
+                }.execute();
+            }
+        });
+    }
     public void addReport(final Report report, final Listener<Report> listener) {
         ReportFirebase.addReport(report, listener);
     }
@@ -89,7 +127,5 @@ public class ReportModel {
 
     }
 
-    public void getAllReports(User user, final ReportModel.Listener<Report> listener) {
 
-    }
 }

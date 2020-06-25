@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/spotsListFragment">
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.where2surf.HomeFragment"
@@ -16,22 +17,19 @@
         tools:layout="@layout/fragment_spots_list">
         <action
             android:id="@+id/action_spotsListFragment_to_spotReportListFragment"
-            app:destination="@id/spotReportListFragment" />
+            app:destination="@id/spotReportsListFragment" />
     </fragment>
     <fragment
-        android:id="@+id/spotReportListFragment"
+        android:id="@+id/spotReportsListFragment"
         android:name="com.example.where2surf.SpotReportsListFragment"
         android:label="Reports List"
-        tools:layout="@layout/fragment_spot_reports_list">
+        tools:layout="@layout/fragment_reports_list">
         <argument
             android:name="spot"
             app:argType="com.example.where2surf.model.Spot" />
         <action
             android:id="@+id/action_spotReportListFragment_to_addReportFragment"
             app:destination="@id/addReportFragment" />
-        <action
-            android:id="@+id/action_spotReportListFragment_to_reportDetailsFragment"
-            app:destination="@id/reportDetailsFragment" />
     </fragment>
     <action
         android:id="@+id/action_global_spotsListFragment"
@@ -86,4 +84,10 @@
             app:argType="com.example.where2surf.model.Report"
             app:nullable="true" />
     </fragment>
+    <fragment
+        android:id="@+id/userReportsListFragment"
+        android:name="com.example.where2surf.UserReportsListFragment"
+        android:label="My reports"
+        tools:layout="@layout/fragment_user_reports_list" />
+    <action android:id="@+id/action_global_userReportsListFragment" app:destination="@id/userReportsListFragment" /><action android:id="@+id/action_global_reportDetailsFragment" app:destination="@id/reportDetailsFragment"/>
 </navigation>

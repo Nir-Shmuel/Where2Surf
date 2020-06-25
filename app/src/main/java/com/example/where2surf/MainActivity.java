@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.where2surf.model.Spot;
@@ -27,9 +28,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthResult;
 
-public class MainActivity extends AppCompatActivity implements SpotsListFragment.Delegate, SpotReportsListFragment.Delegate, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements ReportsListFragment.Delegate, SpotsListFragment.Delegate, NavigationView.OnNavigationItemSelectedListener {
     NavController navController;
     NavigationView navigationView;
+    DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,8 @@ public class MainActivity extends AppCompatActivity implements SpotsListFragment
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+        drawer = findViewById(R.id.drawer_layout);
 
         navigationView = findViewById(R.id.nav_view);
         navigationView.getMenu().findItem(R.id.signout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -52,6 +55,15 @@ public class MainActivity extends AppCompatActivity implements SpotsListFragment
                 return true;
             }
         });
+        navigationView.getMenu().findItem(R.id.userReportsListFragment).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                drawer.closeDrawers();
+                navController.navigate(UserReportsListFragmentDirections.actionGlobalUserReportsListFragment());
+                return true;
+            }
+        });
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -113,6 +125,20 @@ public class MainActivity extends AppCompatActivity implements SpotsListFragment
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+//        switch (menuItem.getItemId()) {
+//            case R.id.signout:
+//                signout();
+//                updateUI();
+//                drawer.closeDrawers();
+//
+//                navController.navigate(SpotsListFragmentDirections.actionGlobalSpotsListFragment());
+//                return true;
+//
+//            case R.id.userReportsListFragment:
+//                drawer.setVisibility(View.INVISIBLE);
+//                navController.navigate(UserReportsListFragmentDirections.actionGlobalUserReportsListFragment());
+//                return true;
+//        }
         return true;
     }
 
@@ -124,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements SpotsListFragment
 
     @Override
     public void OnItemSelected(Report report) {
-        navController.navigate(SpotReportsListFragmentDirections.actionSpotReportListFragmentToReportDetailsFragment(report));
+        navController.navigate(SpotReportsListFragmentDirections.actionGlobalReportDetailsFragment(report));
 //        concatToActionBarTitle(report.getSpotName());
     }
 

@@ -20,6 +20,9 @@ public interface ReportDao {
     @Query("SELECT * FROM Reports WHERE spotName LIKE :name")
     LiveData<List<Report>> getSpotReports(String name);
 
+    @Query("SELECT * FROM Reports WHERE reporterId LIKE :userId")
+    LiveData<List<Report>> getUserReports(String userId);
+
     @Delete
     void delete(Report report);
 }

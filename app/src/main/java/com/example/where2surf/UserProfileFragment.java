@@ -2,9 +2,13 @@ package com.example.where2surf;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -35,6 +39,7 @@ public class UserProfileFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
+        setHasOptionsMenu(true);
         userImage = view.findViewById(R.id.proflie_user_image);
         firstNameTv = view.findViewById(R.id.profile_first_name_tv);
         lastNameTv = view.findViewById(R.id.profile_last_name_tv);
@@ -74,5 +79,21 @@ public class UserProfileFragment extends Fragment {
             showView();
 
         }
+    }
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.user_profile_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_user_profile_edit:
+                
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

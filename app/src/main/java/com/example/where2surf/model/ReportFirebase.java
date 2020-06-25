@@ -123,6 +123,32 @@ public class ReportFirebase {
         });
     }
 
+    static void getAllUserReportsSince(String userId, long since, final ReportModel.Listener<List<Report>> listener){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Timestamp timestamp = new Timestamp(new Date(since));
+        db.collection(REPORT_COLLECTION).whereEqualTo("reporterId", userId)
+                .whereEqualTo("isDeleted", false)
+                .whereGreaterThanOrEqualTo("lastUpdated", timestamp).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                List<Report> reports = null;
+                if (task.isSuccessful()) {
+                    reports = new LinkedList<>();
+                    if (task.getResult() != null)
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            Map<String, Object> json = doc.getData();
+                            Report report = reportFromJson(json);
+                            report.setId(doc.getId());
+                            reports.add(report);
+                        }
+                    listener.onComplete(reports);
+                } else {
+                    throw new RuntimeException(task.getException());
+                }
+            }
+        });
+    }
+
     private static Map<String, Object> jsonFromReport(Report report) {
         HashMap<String, Object> json = new HashMap<>();
         json.put("reporterId", UserModel.instance.getCurrentUserId());

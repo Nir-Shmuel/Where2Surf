@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
     <item
         android:id="@id/homeFragment"
         android:title="Home" />
@@ -18,6 +20,10 @@
         <item
             android:id="@+id/userProfileFragment"
             android:title="Profile" />
+
+        <item
+            android:id="@id/userReportsListFragment"
+            android:title="My reports"/>
         <item
 
             android:id="@+id/signout"

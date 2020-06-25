@@ -8,7 +8,9 @@ import java.io.Serializable;
 
 @Entity(tableName = "Users")
 public class User implements Serializable {
-    @PrimaryKey
+        @PrimaryKey
+    @NonNull
+    private String id;
     @NonNull
     private String email;
     private String imageUrl;
@@ -23,6 +25,14 @@ public class User implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+    @NonNull
+    public String getId() {
+        return id;
+    }
+
+    public void setId(@NonNull String id) {
+        this.id = id;
     }
 
     public long getLastUpdated() {
