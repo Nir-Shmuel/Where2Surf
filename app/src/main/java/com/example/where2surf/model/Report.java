@@ -24,12 +24,18 @@ public class Report implements Serializable {
     private int windSpeed;
     private int numOfSurfers;
     private boolean isContaminated;
-    private int reliabilityRating;
+    private float reliabilityRating;
+    private int numReliabilityCritics;
+
     private long lastUpdated;
     private boolean isDeleted;
 
     public Report() {
+        this.wavesHeight = 0;
+        this.windSpeed = 0;
+        this.numOfSurfers = 0;
         this.reliabilityRating = 0;
+        this.numReliabilityCritics = 0;
     }
 
     @NonNull
@@ -124,14 +130,22 @@ public class Report implements Serializable {
         isContaminated = contaminated;
     }
 
-    public int getReliabilityRating() {
+    public float getReliabilityRating() {
         return reliabilityRating;
     }
 
-    public void setReliabilityRating(int reliabilityRating) {
+    public void setReliabilityRating(float reliabilityRating) {
         if (reliabilityRating < 0)
             this.reliabilityRating = 0;
         this.reliabilityRating = Math.min(5, reliabilityRating);
+    }
+
+    public int getNumReliabilityCritics() {
+        return numReliabilityCritics;
+    }
+
+    public void setNumReliabilityCritics(int numReliabilityCritics) {
+        this.numReliabilityCritics = numReliabilityCritics;
     }
 
     public boolean isDeleted() {

@@ -38,8 +38,10 @@ import static android.app.Activity.RESULT_OK;
 public class ReportDetailsFragment extends Fragment {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static String REPORT_FAILED_ERROR = "Failed to report. Please try again.";
-    private static String SAVE_IMAGE_FAILED_ERROR = "Failed to save image. Please try again.";
+    private static final String REPORT_FAILED_ERROR = "Failed to report. Please try again.";
+    private static final String SAVE_IMAGE_FAILED_ERROR = "Failed to save image. Please try again.";
+    private static final String RATE_REPORT_SUCCEEDED_ERROR = "Thank you for rating the report.";
+    private static final String RATE_REPORT_FAILED_ERROR = "Failed to rate report. Please try again.";
     private static final String INVALID_FORM_ERROR = "Form not valid. Please fill all fields.";
 
     Report report;
@@ -53,6 +55,7 @@ public class ReportDetailsFragment extends Fragment {
     RatingBar reliabilityRating;
     Button editBtn;
     ProgressBar progressBar;
+    Button rateBtn;
     Bitmap imageBitmap;
 
     public ReportDetailsFragment() {
@@ -73,7 +76,15 @@ public class ReportDetailsFragment extends Fragment {
         reliabilityRating = view.findViewById(R.id.report_details_rating_bar);
         editBtn = view.findViewById(R.id.report_details_send_btn);
         progressBar = view.findViewById(R.id.report_details_progress);
+        rateBtn = view.findViewById(R.id.report_details_rate_report_btn);
 
+
+        rateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateReportReliability();
+            }
+        });
 
         takePhotoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +110,20 @@ public class ReportDetailsFragment extends Fragment {
         return view;
     }
 
+    private void updateReportReliability() {
+        rateBtn.setClickable(false);
+        progressBar.setVisibility(View.VISIBLE);
+        ReportModel.instance.updateReportRating(report, reliabilityRating.getRating(), new ReportModel.Listener<Boolean>() {
+
+            @Override
+            public void onComplete(Boolean data) {
+                progressBar.setVisibility(View.INVISIBLE);
+                if(data) updateView(report);
+                messageUser(data ? RATE_REPORT_SUCCEEDED_ERROR : RATE_REPORT_FAILED_ERROR);
+            }
+        });
+    }
+
     private void saveImage(final String reportId) {
         if (imageBitmap != null) {
             StoreModel.uploadReportImage(imageBitmap, reportId, new StoreModel.Listener() {
@@ -111,7 +136,8 @@ public class ReportDetailsFragment extends Fragment {
                                 progressBar.setVisibility(View.INVISIBLE);
                                 setBtnVisibility(false);
                             } else {
-                                reportFailed(SAVE_IMAGE_FAILED_ERROR);
+                                messageUser(SAVE_IMAGE_FAILED_ERROR);
+                                setEditable(true);
                             }
                         }
                     });
@@ -119,7 +145,8 @@ public class ReportDetailsFragment extends Fragment {
 
                 @Override
                 public void onFail() {
-                    reportFailed(REPORT_FAILED_ERROR);
+                    messageUser(REPORT_FAILED_ERROR);
+                    setEditable(true);;
                 }
             });
         } else {
@@ -140,21 +167,22 @@ public class ReportDetailsFragment extends Fragment {
                     if (data) {
                         saveImage(report.getId());
                     } else {
-                        reportFailed(REPORT_FAILED_ERROR);
+                        messageUser(REPORT_FAILED_ERROR);
+                        setEditable(true);
                     }
                 }
             });
         } else {
-            reportFailed(INVALID_FORM_ERROR);
+            messageUser(INVALID_FORM_ERROR);
+            setEditable(true);
         }
 
     }
 
-    private void reportFailed(String errorMsg) {
+    private void messageUser(String msg) {
         progressBar.setVisibility(View.INVISIBLE);
-        Snackbar mySnackbar = Snackbar.make(view, errorMsg, Snackbar.LENGTH_LONG);
+        Snackbar mySnackbar = Snackbar.make(view, msg, Snackbar.LENGTH_LONG);
         mySnackbar.show();
-        setEditable(true);
     }
 
     private void setEditable(boolean b) {
@@ -246,16 +274,16 @@ public class ReportDetailsFragment extends Fragment {
         surfersNumEt.setText(String.format("%s", report.getNumOfSurfers()));
         spotContaminationCb.setChecked(report.isContaminated());
         reliabilityRating.setRating(report.getReliabilityRating());
-//        setSignedInView();
-        setReportOwnerView();
+        setSignedInView();
     }
 
     private void setSignedInView() {
-
-    }
-
-    private void setReportOwnerView() {
+        boolean isSignedIn = UserModel.instance.isSignedIn();
         boolean isReportOwner = report.getReporterId().equals(UserModel.instance.getCurrentUserId());
         setHasOptionsMenu(isReportOwner);
+        rateBtn.setVisibility(isSignedIn && !isReportOwner ? View.VISIBLE : View.INVISIBLE);
+        reliabilityRating.setIsIndicator(!isSignedIn || isReportOwner);
+
     }
+
 }

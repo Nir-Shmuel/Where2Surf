@@ -54,7 +54,6 @@ public class SpotReportsListFragment extends ReportsListFragment {
                 adapter.notifyDataSetChanged();
             }
         });
-
         final SwipeRefreshLayout swipeRefresh = view.findViewById(R.id.reports_list_swipe_refresh);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

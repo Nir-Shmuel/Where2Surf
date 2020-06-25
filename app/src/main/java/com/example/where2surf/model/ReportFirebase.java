@@ -63,6 +63,20 @@ public class ReportFirebase {
                 });
     }
 
+    public static void updateReportRating(String reportId, float newRating, int newNumOfCritics, final ReportModel.Listener<Boolean> listener) {
+        Map<String, Object> fields = new HashMap<>();
+        fields.put("numReliabilityCritics", newNumOfCritics);
+        fields.put("reliabilityRating", newRating);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(REPORT_COLLECTION).document(reportId).update(fields)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        listener.onComplete(task.isSuccessful());
+                    }
+                });
+    }
+
     public static void deleteReport(final Report report, final ReportModel.Listener<Boolean> listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(REPORT_COLLECTION).document(report.getId()).update("isDeleted", true)
@@ -123,7 +137,7 @@ public class ReportFirebase {
         });
     }
 
-    static void getAllUserReportsSince(String userId, long since, final ReportModel.Listener<List<Report>> listener){
+    static void getAllUserReportsSince(String userId, long since, final ReportModel.Listener<List<Report>> listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Timestamp timestamp = new Timestamp(new Date(since));
         db.collection(REPORT_COLLECTION).whereEqualTo("reporterId", userId)
@@ -161,6 +175,7 @@ public class ReportFirebase {
         json.put("numOfSurfers", report.getNumOfSurfers());
         json.put("isContaminated", report.isContaminated());
         json.put("reliabilityRating", report.getReliabilityRating());
+        json.put("numReliabilityCritics", report.getNumReliabilityCritics());
         json.put("lastUpdated", FieldValue.serverTimestamp());
         json.put("isDeleted", report.isDeleted());
         return json;
@@ -184,12 +199,12 @@ public class ReportFirebase {
         report.setWindSpeed(((Long) json.get("windSpeed")).intValue());
         report.setNumOfSurfers(((Long) json.get("numOfSurfers")).intValue());
         report.setContaminated((boolean) json.get("isContaminated"));
-        report.setReliabilityRating(((Long) json.get("reliabilityRating")).intValue());
+        report.setReliabilityRating(((Double) json.get("reliabilityRating")).floatValue());
+        report.setNumReliabilityCritics(((Long) json.get("numReliabilityCritics")).intValue());
         Timestamp lastUpdatedTimestamp = (Timestamp) json.get("lastUpdated");
         if (lastUpdatedTimestamp != null)
             report.setLastUpdated(lastUpdatedTimestamp.toDate().getTime());
         report.setDeleted((boolean) json.get("isDeleted"));
         return report;
     }
-
 }

@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel;
 import com.example.where2surf.model.Report;
 import com.example.where2surf.model.ReportModel;
 import com.example.where2surf.model.Spot;
-import com.example.where2surf.model.SpotModel;
 
 import java.util.List;
 

@@ -159,12 +159,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginTop="24dp"
-                android:isIndicator="true"
                 android:max="5"
                 android:numStars="5"
                 android:rating="1"
                 android:stepSize="1"
-                app:layout_constraintEnd_toEndOf="@+id/report_details_rating_bar_tv"
                 app:layout_constraintStart_toStartOf="@+id/report_details_rating_bar_tv"
                 app:layout_constraintTop_toBottomOf="@+id/report_details_rating_bar_tv" />
 
@@ -173,6 +171,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="24dp"
                 android:text="@string/report_details_send_btn"
@@ -190,6 +189,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/report_details_rate_report_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/report_details_rate_report_btn"
+                app:layout_constraintBottom_toBottomOf="@+id/report_details_rating_bar"
+                app:layout_constraintEnd_toEndOf="@+id/report_details_rating_bar_tv"
+                app:layout_constraintStart_toEndOf="@+id/report_details_rating_bar"
+                app:layout_constraintTop_toTopOf="@+id/report_details_rating_bar" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

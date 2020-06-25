@@ -13,15 +13,17 @@ import java.util.List;
 
 public class SpotModel {
     public static final SpotModel instance = new SpotModel();
+    LiveData<List<Spot>> liveData;
 
-//        private SpotModel(){
-//        MyApplication.context.deleteDatabase("Where2SurfDb.db");
-//        for (int i = 0; i < 10; i++) {
-//            boolean p = i % 2 == 0;
-//            Spot spot = new Spot("spot " + i, "location " + i, p);
-//            addSpot(spot,null);
-//        }
-//    }
+    private SpotModel() {
+        MyApplication.context.deleteDatabase("Where2SurfDb.db");
+        for (int i = 0; i < 10; i++) {
+            boolean p = i % 2 == 0;
+            Spot spot = new Spot("spot " + i, "location " + i, p);
+            addSpot(spot, null);
+        }
+    }
+
     public interface Listener<T> {
         void onComplete(T data);
     }
@@ -31,7 +33,7 @@ public class SpotModel {
     }
 
     public LiveData<List<Spot>> getAllSpots() {
-        LiveData<List<Spot>> liveData = AppLocalDb.db.spotDao().getAll();
+        liveData = AppLocalDb.db.spotDao().getAll();
         refreshSpotsList(null);
         return liveData;
     }
@@ -67,7 +69,15 @@ public class SpotModel {
         });
     }
 
-    public void addSpot(Spot spot, Listener<Boolean> listener) {
+    @SuppressLint("StaticFieldLeak")
+    public void addSpot(final Spot spot, Listener<Boolean> listener) {
         SpotFirebase.addSpot(spot, listener);
+        new AsyncTask<String, String, String>() {
+            @Override
+            protected String doInBackground(String... strings) {
+                AppLocalDb.db.spotDao().insertAll(spot);
+                return null;
+            }
+        }.execute();
     }
 }

@@ -12,7 +12,7 @@ import com.example.where2surf.MyApplication;
 import java.util.List;
 
 public class ReportModel {
-    List<Report> reports;
+
     public static final ReportModel instance = new ReportModel();
 
     public interface Listener<T> {
@@ -69,7 +69,7 @@ public class ReportModel {
         return liveData;
     }
 
-    public void refreshUserReportsList(String userId, final CompleteListener listener){
+    public void refreshUserReportsList(String userId, final CompleteListener listener) {
         long lastUpdated = MyApplication.context.getSharedPreferences("lastUpdated", Context.MODE_PRIVATE)
                 .getLong("ReportsLastUpdateDate", 0);
         ReportFirebase.getAllUserReportsSince(userId, lastUpdated, new Listener<List<Report>>() {
@@ -101,6 +101,7 @@ public class ReportModel {
             }
         });
     }
+
     public void addReport(final Report report, final Listener<Report> listener) {
         ReportFirebase.addReport(report, listener);
     }
@@ -111,6 +112,30 @@ public class ReportModel {
 
     public void setReportImageUrl(String reportId, String imageUrl, Listener<Boolean> listener) {
         ReportFirebase.setReportImageUrl(reportId, imageUrl, listener);
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public void updateReportRating(final Report report, float newRating, final Listener<Boolean> listener) {
+        final int n = report.getNumReliabilityCritics();
+        float oldRating = report.getReliabilityRating();
+        final float avgRating = oldRating * n / (n + 1) + newRating / (n + 1);
+        ReportFirebase.updateReportRating(report.getId(), avgRating, n + 1, new Listener<Boolean>() {
+            @Override
+            public void onComplete(Boolean data) {
+                if (data) {
+                    report.setReliabilityRating(avgRating);
+                    report.setNumReliabilityCritics(n + 1);
+                    new AsyncTask<String, String, String>() {
+                        @Override
+                        protected String doInBackground(String... strings) {
+                            AppLocalDb.db.reportDao().insertAll(report);
+                            return null;
+                        }
+                    }.execute();
+                }
+                listener.onComplete(data);
+            }
+        });
     }
 
     @SuppressLint("StaticFieldLeak")
