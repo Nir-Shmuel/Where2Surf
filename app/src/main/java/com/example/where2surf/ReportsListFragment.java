@@ -48,7 +48,6 @@ public abstract class ReportsListFragment extends Fragment {
 
         reportsList = view.findViewById(R.id.reports_list_list);
         reportsList.setHasFixedSize(true);
-
         layoutManager = new LinearLayoutManager(getContext());
         reportsList.setLayoutManager(layoutManager);
         adapter = new ReportsListAdapter();

@@ -15,15 +15,6 @@ public class SpotModel {
     public static final SpotModel instance = new SpotModel();
     LiveData<List<Spot>> liveData;
 
-    private SpotModel() {
-        MyApplication.context.deleteDatabase("Where2SurfDb.db");
-        for (int i = 0; i < 10; i++) {
-            boolean p = i % 2 == 0;
-            Spot spot = new Spot("spot " + i, "location " + i, p);
-            addSpot(spot, null);
-        }
-    }
-
     public interface Listener<T> {
         void onComplete(T data);
     }

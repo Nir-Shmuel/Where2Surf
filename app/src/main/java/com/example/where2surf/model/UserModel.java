@@ -4,6 +4,14 @@ public class UserModel {
 
     public static final UserModel instance = new UserModel();
 
+    public void updateUserDetails(String firstName, String lastName, UserModel.Listener<Boolean> listener) {
+        UserFirebase.updateUserDetails(firstName, lastName, listener);
+    }
+
+    public void setUserImageUrl(String url, UserModel.Listener<Boolean> listener) {
+        UserFirebase.setUserImageUrl(url, listener);
+    }
+
     public interface Listener<T> {
         void onComplete(T data);
     }

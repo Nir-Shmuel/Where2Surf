@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -123,5 +124,41 @@ public class UserFirebase {
         if (firebaseUser != null)
             return firebaseUser.getUid();
         return null;
+    }
+
+    public static void updateUserDetails(String firstName, String lastName, final UserModel.Listener<Boolean> listener) {
+        String userId = getCurrentUserId();
+        if (userId != null) {
+            Map<String, Object> fields = new HashMap<>();
+            fields.put("firstName", firstName);
+            fields.put("lastName", lastName);
+            fields.put("lastUpdated", FieldValue.serverTimestamp());
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection(USER_COLLECTION).document(userId).update(fields)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            listener.onComplete(task.isSuccessful());
+                        }
+                    });
+        } else {
+            listener.onComplete(false);
+        }
+    }
+
+    public static void setUserImageUrl(String url, final UserModel.Listener<Boolean> listener) {
+        String userId = getCurrentUserId();
+        if (userId != null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection(USER_COLLECTION).document(userId).update("imageUrl", url)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            listener.onComplete(task.isSuccessful());
+                        }
+                    });
+        } else {
+            listener.onComplete(false);
+        }
     }
 }

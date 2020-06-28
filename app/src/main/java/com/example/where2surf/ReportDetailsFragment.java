@@ -118,7 +118,10 @@ public class ReportDetailsFragment extends Fragment {
             @Override
             public void onComplete(Boolean data) {
                 progressBar.setVisibility(View.INVISIBLE);
-                if(data) updateView(report);
+                if (data) {
+                    updateView(report);
+                    reliabilityRating.setIsIndicator(true);
+                }
                 messageUser(data ? RATE_REPORT_SUCCEEDED_ERROR : RATE_REPORT_FAILED_ERROR);
             }
         });
@@ -146,7 +149,8 @@ public class ReportDetailsFragment extends Fragment {
                 @Override
                 public void onFail() {
                     messageUser(REPORT_FAILED_ERROR);
-                    setEditable(true);;
+                    setEditable(true);
+                    ;
                 }
             });
         } else {
@@ -283,7 +287,6 @@ public class ReportDetailsFragment extends Fragment {
         setHasOptionsMenu(isReportOwner);
         rateBtn.setVisibility(isSignedIn && !isReportOwner ? View.VISIBLE : View.INVISIBLE);
         reliabilityRating.setIsIndicator(!isSignedIn || isReportOwner);
-
     }
 
 }

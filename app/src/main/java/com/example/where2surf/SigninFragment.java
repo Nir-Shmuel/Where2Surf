@@ -14,13 +14,18 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.where2surf.model.UserModel;
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class SigninFragment extends Fragment {
+    private static final String AUTHENTICATION_FAILED_MESSAGE = "Authentication failed.";
+    private static final String INVALID_FORM_MESSAGE = "Form not valid. Please try again.";
+
     View view;
     EditText usernameEt;
     EditText pwdEt;
@@ -53,26 +58,36 @@ public class SigninFragment extends Fragment {
             public void onClick(View v) {
                 hideKeyboard();
 
-                MainActivity activity = (MainActivity) getActivity();
-                if (activity != null && validateForm()) {
+                if (validateForm()) {
                     progressBar.setVisibility(View.VISIBLE);
                     sendBtn.setClickable(false);
-                    activity.signIn(usernameEt.getText().toString(), pwdEt.getText().toString(), new UserModel.Listener<Boolean>() {
+                    UserModel.instance.signIn(usernameEt.getText().toString(), pwdEt.getText().toString(), new UserModel.Listener<Boolean>() {
                         @Override
                         public void onComplete(Boolean data) {
                             if (data) {
                                 Navigation.findNavController(view).navigateUp();
+                                MainActivity activity = (MainActivity) getActivity();
+                                if (activity != null)
+                                    activity.updateUI();
                             } else {
-                                progressBar.setVisibility(View.INVISIBLE);
-                                sendBtn.setClickable(true);
+                                signInFailed(AUTHENTICATION_FAILED_MESSAGE);
                             }
                         }
                     });
+                }else{
+                    signInFailed(INVALID_FORM_MESSAGE);
                 }
             }
         });
 
         return view;
+    }
+
+    private void signInFailed(String errorMsg) {
+        progressBar.setVisibility(View.INVISIBLE);
+        Snackbar mySnackbar = Snackbar.make(view, errorMsg, Snackbar.LENGTH_LONG);
+        mySnackbar.show();
+        sendBtn.setClickable(true);
     }
 
     public void hideKeyboard() {

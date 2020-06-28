@@ -67,6 +67,7 @@ public class ReportFirebase {
         Map<String, Object> fields = new HashMap<>();
         fields.put("numReliabilityCritics", newNumOfCritics);
         fields.put("reliabilityRating", newRating);
+        fields.put("lastUpdated", FieldValue.serverTimestamp());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(REPORT_COLLECTION).document(reportId).update(fields)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

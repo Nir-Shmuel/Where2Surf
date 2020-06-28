@@ -120,11 +120,10 @@ public class SignupFragment extends Fragment {
     }
 
     private void saveUser(final String imageUrl) {
-        final MainActivity activity = (MainActivity) getActivity();
-        if (activity != null && validateForm()) {
+        if (validateForm()) {
             final String email = emailEt.getText().toString();
             final String pwd = pwdEt.getText().toString();
-            activity.createAccount(email, pwd, new UserModel.Listener<Boolean>() {
+            UserModel.instance.signUp(email, pwd, new UserModel.Listener<Boolean>() {
                 @Override
                 public void onComplete(Boolean data) {
                     if (data) {
@@ -134,6 +133,9 @@ public class SignupFragment extends Fragment {
                         user.setLastName(lastNameEt.getText().toString());
                         user.setImageUrl(imageUrl);
                         UserModel.instance.addUser(user, null);
+                        MainActivity activity = (MainActivity) getActivity();
+                        if (activity != null)
+                            activity.updateUI();
                         Navigation.findNavController(view).navigateUp();
                     } else {
                         registrationFailed(INVALID_FORM_ERROR);
