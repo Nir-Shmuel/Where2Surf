@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AboutFragment">
+
+    <TextView
+        android:id="@+id/about_welcome_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:text="@string/welcome_to_where2surf"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/about_app_details_tv"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:text="@string/about_app_details"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/about_spots_list_btn"
+        app:layout_constraintEnd_toEndOf="@+id/about_welcome_tv"
+        app:layout_constraintHorizontal_bias="0.682"
+        app:layout_constraintStart_toStartOf="@+id/about_welcome_tv"
+        app:layout_constraintTop_toBottomOf="@+id/about_welcome_tv" />
+
+    <Button
+        android:id="@+id/about_spots_list_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="276dp"
+        android:text="@string/about_go_to_spots_list"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/about_app_details_tv"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/about_app_details_tv" />
+
+    <Button
+        android:id="@+id/about_login_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/about_login"
+        app:layout_constraintEnd_toEndOf="@+id/about_spots_list_btn"
+        app:layout_constraintStart_toStartOf="@+id/about_spots_list_btn"
+        app:layout_constraintTop_toBottomOf="@+id/about_spots_list_btn" />
+
+    <Button
+        android:id="@+id/about_signup_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/about_signup"
+        app:layout_constraintEnd_toEndOf="@+id/about_login_btn"
+        app:layout_constraintStart_toStartOf="@+id/about_login_btn"
+        app:layout_constraintTop_toBottomOf="@+id/about_login_btn" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

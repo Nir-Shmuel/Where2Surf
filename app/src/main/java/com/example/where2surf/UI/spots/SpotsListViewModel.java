@@ -1,4 +1,4 @@
-package com.example.where2surf;
+package com.example.where2surf.UI.spots;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;

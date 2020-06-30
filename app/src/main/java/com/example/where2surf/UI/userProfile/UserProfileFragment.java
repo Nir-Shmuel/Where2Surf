@@ -1,4 +1,4 @@
-package com.example.where2surf;
+package com.example.where2surf.UI.userProfile;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.where2surf.model.ReportModel;
+import com.example.where2surf.R;
 import com.example.where2surf.model.StoreModel;
 import com.example.where2surf.model.User;
 import com.example.where2surf.model.UserModel;
@@ -153,7 +153,6 @@ public class UserProfileFragment extends Fragment {
                 public void onFail() {
                     messageUser(REPORT_FAILED_ERROR);
                     setEditable(true);
-                    ;
                 }
             });
         } else {
@@ -235,7 +234,6 @@ public class UserProfileFragment extends Fragment {
             lastNameEt.setText(user.getLastName());
             updateVisibility(View.VISIBLE);
             progressBar.setVisibility(View.INVISIBLE);
-
         }
     }
 

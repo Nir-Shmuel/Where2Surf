@@ -10,10 +10,10 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    tools:context=".SigninFragment">
+    tools:context=".LoginFragment">
 
     <EditText
-        android:id="@+id/signin_username_et"
+        android:id="@+id/login_username_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -28,7 +28,7 @@
         android:autofillHints="" />
 
     <EditText
-        android:id="@+id/signin_password_et"
+        android:id="@+id/login_password_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -41,11 +41,11 @@
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signin_username_et"
+        app:layout_constraintTop_toBottomOf="@+id/login_username_et"
         android:autofillHints="" />
 
     <Button
-        android:id="@+id/signin_send_btn"
+        android:id="@+id/login_send_btn"
         android:enabled="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,11 +58,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signin_password_et"
+        app:layout_constraintTop_toBottomOf="@+id/login_password_et"
         app:layout_constraintVertical_bias="0.2" />
 
     <ProgressBar
-        android:id="@+id/signin_loading"
+        android:id="@+id/login_loading"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,8 +72,8 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/signin_password_et"
-        app:layout_constraintStart_toStartOf="@+id/signin_password_et"
+        app:layout_constraintEnd_toEndOf="@+id/login_password_et"
+        app:layout_constraintStart_toStartOf="@+id/login_password_et"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

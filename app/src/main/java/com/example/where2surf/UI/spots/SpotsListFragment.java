@@ -1,4 +1,4 @@
-package com.example.where2surf;
+package com.example.where2surf.UI.spots;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
+import com.example.where2surf.R;
 import com.example.where2surf.model.Spot;
 import com.example.where2surf.model.SpotModel;
 
@@ -30,6 +31,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class SpotsListFragment extends Fragment {
+
     private RecyclerView spotsList;
     private List<Spot> spotsData = new LinkedList<>();
     private SpotsListViewModel viewModel;
@@ -37,7 +39,7 @@ public class SpotsListFragment extends Fragment {
     private LiveData<List<Spot>> liveData;
 
 
-    interface Delegate {
+    public interface Delegate {
         void OnItemSelected(Spot spot);
     }
 

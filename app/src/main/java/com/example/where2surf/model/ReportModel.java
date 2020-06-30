@@ -102,12 +102,57 @@ public class ReportModel {
         });
     }
 
+    public LiveData<Report> getReport(String reportId) {
+        LiveData<Report> reportLiveData = AppLocalDb.db.reportDao().getReport(reportId);
+        refreshReportDetails(reportId, null);
+        return reportLiveData;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public void refreshReportDetails(String reportId, final CompleteListener listener) {
+        ReportFirebase.getReportById(reportId, new Listener<Report>() {
+            @Override
+            public void onComplete(final Report data) {
+                new AsyncTask<String, String, String>() {
+                    @Override
+                    protected String doInBackground(String... strings) {
+                        if (data != null) {
+                            AppLocalDb.db.reportDao().insertAll(data);
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(String s) {
+                        super.onPostExecute(s);
+                        if (listener != null) listener.onComplete();
+                    }
+                }.execute("");
+            }
+        });
+    }
+
     public void addReport(final Report report, final Listener<Report> listener) {
         ReportFirebase.addReport(report, listener);
     }
 
-    public void updateReport(Report report, Listener<Boolean> listener) {
-        ReportFirebase.updateReport(report, listener);
+    @SuppressLint("StaticFieldLeak")
+    public void updateReport(final Report report, final Listener<Boolean> listener) {
+        ReportFirebase.updateReport(report, new Listener<Boolean>() {
+            @Override
+            public void onComplete(Boolean data) {
+                if (data) {
+                    new AsyncTask<String, String, String>() {
+                        @Override
+                        protected String doInBackground(String... strings) {
+                            AppLocalDb.db.reportDao().insertAll(report);
+                            return null;
+                        }
+                    }.execute("");
+                }
+                listener.onComplete(data);
+            }
+        });
     }
 
     public void setReportImageUrl(String reportId, String imageUrl, Listener<Boolean> listener) {
@@ -139,7 +184,6 @@ public class ReportModel {
     }
 
     @SuppressLint("StaticFieldLeak")
-
     public void deleteReport(final Report report, Listener<Boolean> listener) {
         ReportFirebase.deleteReport(report, listener);
         new AsyncTask<String, String, String>() {

@@ -11,9 +11,6 @@ import java.util.List;
 
 @Dao
 public interface ReportDao {
-    @Query("SELECT * FROM Reports")
-    List<Report> getAll();
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Report... reports);
 
@@ -22,6 +19,9 @@ public interface ReportDao {
 
     @Query("SELECT * FROM Reports WHERE reporterId LIKE :userId")
     LiveData<List<Report>> getUserReports(String userId);
+
+    @Query("SELECT * FROM Reports WHERE id LIKE :reportId")
+    LiveData<Report> getReport(String reportId);
 
     @Delete
     void delete(Report report);

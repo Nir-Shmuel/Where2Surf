@@ -1,5 +1,6 @@
-package com.example.where2surf;
+package com.example.where2surf.UI.reportDetails;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -7,6 +8,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.provider.MediaStore;
@@ -23,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 
+import com.example.where2surf.R;
 import com.example.where2surf.model.Report;
 import com.example.where2surf.model.ReportModel;
 import com.example.where2surf.model.StoreModel;
@@ -44,6 +49,8 @@ public class ReportDetailsFragment extends Fragment {
     private static final String RATE_REPORT_FAILED_ERROR = "Failed to rate report. Please try again.";
     private static final String INVALID_FORM_ERROR = "Form not valid. Please fill all fields.";
 
+    ReportDetailsViewModel viewModel;
+    LiveData<Report> reportLiveData;
     Report report;
     View view;
     Button takePhotoBtn;
@@ -100,14 +107,26 @@ public class ReportDetailsFragment extends Fragment {
                 editReport();
             }
         });
-
         if (getArguments() != null)
             report = ReportDetailsFragmentArgs.fromBundle(getArguments()).getReport();
+        reportLiveData = viewModel.getLiveData(report.getId());
+        reportLiveData.observe(getViewLifecycleOwner(), new Observer<Report>() {
+            @Override
+            public void onChanged(Report _report) {
+                report = _report;
+            }
+        });
         setBtnVisibility(false);
         setEditable(false);
         updateView(report);
 
         return view;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(ReportDetailsViewModel.class);
     }
 
     private void updateReportReliability() {
@@ -150,7 +169,6 @@ public class ReportDetailsFragment extends Fragment {
                 public void onFail() {
                     messageUser(REPORT_FAILED_ERROR);
                     setEditable(true);
-                    ;
                 }
             });
         } else {
@@ -194,6 +212,7 @@ public class ReportDetailsFragment extends Fragment {
         windSpeedEt.setEnabled(b);
         surfersNumEt.setEnabled(b);
         takePhotoBtn.setClickable(b);
+        spotContaminationCb.setClickable(b);
         editBtn.setClickable(b);
     }
 
@@ -282,7 +301,7 @@ public class ReportDetailsFragment extends Fragment {
     }
 
     private void setSignedInView() {
-        boolean isSignedIn = UserModel.instance.isSignedIn();
+        boolean isSignedIn = UserModel.instance.isLoggedIn();
         boolean isReportOwner = report.getReporterId().equals(UserModel.instance.getCurrentUserId());
         setHasOptionsMenu(isReportOwner);
         rateBtn.setVisibility(isSignedIn && !isReportOwner ? View.VISIBLE : View.INVISIBLE);

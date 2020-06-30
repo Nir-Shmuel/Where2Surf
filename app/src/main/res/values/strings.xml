@@ -46,11 +46,21 @@
     <string name="edit_report_waves_height_tv">Waves height (meters):</string>
     <string name="report_details_menu_edit">Edit</string>
     <string name="report_details_menu_delete">Delete</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="user_profile_menu_edit">Edit profile</string>
     <string name="report_details_rate_report_btn">Rate</string>
     <string name="user_profile_email">Email</string>
     <string name="profile_edit_btn">Edit</string>
     <string name="profile_take_photo_btn">Take photo</string>
+    <string name="welcome_to_where2surf">Welcome to Where2Surf</string>
+    <string name="about_app_details">WTS was created to simplify surf conditions report, by containing each spot\'s reports in one place.\n\n Everyone can see the reports, but only the app users can report and rate the report\'s reliability.</string>
+    <string name="drawer_about_wts">About WTS</string>
+    <string name="drawer_spots">Spots</string>
+    <string name="drawer_log_in">Log in</string>
+    <string name="drawer_sign_up">Sign up</string>
+    <string name="drawer_profile">Profile</string>
+    <string name="drawer_my_reports">My reports</string>
+    <string name="drawer_sign_out">Sign Out</string>
+    <string name="about_go_to_spots_list">Go to spots list</string>
+    <string name="about_login">Login</string>
+    <string name="about_signup">Signup</string>
 </resources>

@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -37,6 +38,18 @@ public class ReportFirebase {
                     listener.onComplete(null);
                 }
 
+            }
+        });
+    }
+
+    public static void getReportById(final String reportId, final ReportModel.Listener<Report> listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(REPORT_COLLECTION).document(reportId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot res = task.getResult();
+                if (res != null && res.getData()!=null)
+                    listener.onComplete(reportFromJson(reportId, res.getData()));
             }
         });
     }
@@ -97,13 +110,13 @@ public class ReportFirebase {
                 .whereGreaterThanOrEqualTo("lastUpdated", timestamp).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                List<Report> reports = null;
+                List<Report> reports;
                 if (task.isSuccessful()) {
                     reports = new LinkedList<>();
                     if (task.getResult() != null)
                         for (QueryDocumentSnapshot doc : task.getResult()) {
                             Map<String, Object> json = doc.getData();
-                            Report report = reportFromJson(json);
+                            Report report = reportFromJson(doc.getId(), json);
                             report.setId(doc.getId());
                             reports.add(report);
                         }
@@ -127,7 +140,7 @@ public class ReportFirebase {
                     if (task.getResult() != null)
                         for (QueryDocumentSnapshot doc : task.getResult()) {
                             Map<String, Object> json = doc.getData();
-                            Report report = reportFromJson(json);
+                            Report report = reportFromJson(doc.getId(), json);
                             report.setId(doc.getId());
                             reports.add(report);
                         }
@@ -146,13 +159,13 @@ public class ReportFirebase {
                 .whereGreaterThanOrEqualTo("lastUpdated", timestamp).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                List<Report> reports = null;
+                List<Report> reports;
                 if (task.isSuccessful()) {
                     reports = new LinkedList<>();
                     if (task.getResult() != null)
                         for (QueryDocumentSnapshot doc : task.getResult()) {
                             Map<String, Object> json = doc.getData();
-                            Report report = reportFromJson(json);
+                            Report report = reportFromJson(doc.getId(), json);
                             report.setId(doc.getId());
                             reports.add(report);
                         }
@@ -182,8 +195,9 @@ public class ReportFirebase {
         return json;
     }
 
-    private static Report reportFromJson(Map<String, Object> json) {
+    private static Report reportFromJson(String id, Map<String, Object> json) {
         Report report = new Report();
+        report.setId(id);
         String reporterId = (String) json.get("reporterId");
         String reporterName = (String) json.get("reporterName");
         String spotName = (String) json.get("spotName");

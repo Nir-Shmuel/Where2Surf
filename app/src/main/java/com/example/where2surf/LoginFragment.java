@@ -14,7 +14,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.where2surf.model.UserModel;
 import com.google.android.material.snackbar.Snackbar;
@@ -22,7 +21,7 @@ import com.google.android.material.snackbar.Snackbar;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SigninFragment extends Fragment {
+public class LoginFragment extends Fragment {
     private static final String AUTHENTICATION_FAILED_MESSAGE = "Authentication failed.";
     private static final String INVALID_FORM_MESSAGE = "Form not valid. Please try again.";
 
@@ -32,7 +31,7 @@ public class SigninFragment extends Fragment {
     Button sendBtn;
     ProgressBar progressBar;
 
-    public SigninFragment() {
+    public LoginFragment() {
         // Required empty public constructor
     }
 
@@ -47,11 +46,11 @@ public class SigninFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_signin, container, false);
-        usernameEt = view.findViewById(R.id.signin_username_et);
-        pwdEt = view.findViewById(R.id.signin_password_et);
-        progressBar = view.findViewById(R.id.signin_loading);
-        sendBtn = view.findViewById(R.id.signin_send_btn);
+        view = inflater.inflate(R.layout.fragment_login, container, false);
+        usernameEt = view.findViewById(R.id.login_username_et);
+        pwdEt = view.findViewById(R.id.login_password_et);
+        progressBar = view.findViewById(R.id.login_loading);
+        sendBtn = view.findViewById(R.id.login_send_btn);
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override

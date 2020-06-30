@@ -13,7 +13,6 @@ import java.util.List;
 
 public class SpotModel {
     public static final SpotModel instance = new SpotModel();
-    LiveData<List<Spot>> liveData;
 
     public interface Listener<T> {
         void onComplete(T data);
@@ -23,8 +22,9 @@ public class SpotModel {
         void onComplete();
     }
 
+
     public LiveData<List<Spot>> getAllSpots() {
-        liveData = AppLocalDb.db.spotDao().getAll();
+        LiveData<List<Spot>> liveData = AppLocalDb.db.spotDao().getAll();
         refreshSpotsList(null);
         return liveData;
     }

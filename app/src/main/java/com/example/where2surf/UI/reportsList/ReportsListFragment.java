@@ -1,4 +1,4 @@
-package com.example.where2surf;
+package com.example.where2surf.UI.reportsList;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.where2surf.R;
 import com.example.where2surf.model.Report;
 import com.example.where2surf.model.UserModel;
 
@@ -29,7 +30,7 @@ public abstract class ReportsListFragment extends Fragment {
     protected ReportsListAdapter adapter;
     protected LiveData<List<Report>> liveData;
 
-    interface Delegate {
+    public interface Delegate {
         void OnItemSelected(Report report);
     }
 
@@ -44,7 +45,7 @@ public abstract class ReportsListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_reports_list, container, false);
-        setHasOptionsMenu(UserModel.instance.isSignedIn());
+        setHasOptionsMenu(UserModel.instance.isLoggedIn());
 
         reportsList = view.findViewById(R.id.reports_list_list);
         reportsList.setHasFixedSize(true);

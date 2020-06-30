@@ -17,6 +17,10 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.where2surf.UI.reportsList.ReportsListFragment;
+import com.example.where2surf.UI.reportsList.SpotReportsListFragmentDirections;
+import com.example.where2surf.UI.spots.SpotsListFragment;
+import com.example.where2surf.UI.spots.SpotsListFragmentDirections;
 import com.example.where2surf.model.Spot;
 import com.example.where2surf.model.Report;
 import com.example.where2surf.model.UserModel;
@@ -103,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements ReportsListFragme
     }
 
     public void updateUI() {
-        boolean isSignedIn = UserModel.instance.isSignedIn();
+        boolean isSignedIn = UserModel.instance.isLoggedIn();
         navigationView.getMenu().setGroupVisible(R.id.drawer_group_registered, isSignedIn);
         navigationView.getMenu().setGroupVisible(R.id.drawer_group_unregistered, !isSignedIn);
     }

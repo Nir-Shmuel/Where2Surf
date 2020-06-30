@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ReportDetailsFragment">
+    tools:context=".UI.reportDetails.ReportDetailsFragment">
 
     <ScrollView
         android:layout_width="match_parent"

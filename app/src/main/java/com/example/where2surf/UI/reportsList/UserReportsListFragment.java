@@ -1,4 +1,4 @@
-package com.example.where2surf;
+package com.example.where2surf.UI.reportsList;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,10 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.example.where2surf.R;
 import com.example.where2surf.model.Report;
 import com.example.where2surf.model.ReportModel;
 import com.example.where2surf.model.UserModel;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -33,7 +35,7 @@ public class UserReportsListFragment extends ReportsListFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         super.onCreateView(inflater, container, savedInstanceState);
@@ -44,6 +46,12 @@ public class UserReportsListFragment extends ReportsListFragment {
             @Override
             public void onChanged(List<Report> reports) {
                 reportsData = reports;
+                reportsData.sort(new Comparator<Report>() {
+                    @Override
+                    public int compare(Report o1, Report o2) {
+                        return Long.compare(o2.getDate(), o1.getDate());
+                    }
+                });
                 adapter.notifyDataSetChanged();
             }
         });

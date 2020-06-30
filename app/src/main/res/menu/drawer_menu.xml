@@ -3,30 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
     <item
-        android:id="@id/homeFragment"
-        android:title="Home" />
+        android:id="@id/aboutFragment"
+        android:title="@string/drawer_about_wts" />
     <item
         android:id="@id/spotsListFragment"
-        android:title="Spots" />
+        android:title="@string/drawer_spots" />
     <group android:id="@+id/drawer_group_unregistered">
         <item
-            android:id="@id/signinFragment"
-            android:title="Sign in" />
+            android:id="@id/loginFragment"
+            android:title="@string/drawer_log_in" />
         <item
             android:id="@id/signupFragment"
-            android:title="Sign up" />
+            android:title="@string/drawer_sign_up" />
     </group>
     <group android:id="@+id/drawer_group_registered">
         <item
             android:id="@+id/userProfileFragment"
-            android:title="Profile" />
+            android:title="@string/drawer_profile" />
 
         <item
             android:id="@id/userReportsListFragment"
-            android:title="My reports"/>
+            android:title="@string/drawer_my_reports"/>
         <item
 
             android:id="@+id/signout"
-            android:title="Sign Out" />
+            android:title="@string/drawer_sign_out" />
     </group>
 </menu>

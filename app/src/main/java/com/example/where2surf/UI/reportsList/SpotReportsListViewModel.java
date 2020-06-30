@@ -1,4 +1,4 @@
-package com.example.where2surf;
+package com.example.where2surf.UI.reportsList;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
@@ -10,7 +10,7 @@ import com.example.where2surf.model.Spot;
 import java.util.List;
 
 public class SpotReportsListViewModel extends ViewModel {
-    LiveData<List<Report>> liveData;
+    private LiveData<List<Report>> liveData;
 
     public LiveData<List<Report>> getLiveData(Spot spot){
         if(liveData == null)

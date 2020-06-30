@@ -6,13 +6,13 @@
     app:startDestination="@id/spotsListFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.where2surf.HomeFragment"
-        android:label="WTS"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/aboutFragment"
+        android:name="com.example.where2surf.AboutFragment"
+        android:label="About WTS"
+        tools:layout="@layout/fragment_about" />
     <fragment
         android:id="@+id/spotsListFragment"
-        android:name="com.example.where2surf.SpotsListFragment"
+        android:name="com.example.where2surf.UI.spots.SpotsListFragment"
         android:label="Spots List"
         tools:layout="@layout/fragment_spots_list">
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/spotReportsListFragment"
-        android:name="com.example.where2surf.SpotReportsListFragment"
+        android:name="com.example.where2surf.UI.reportsList.SpotReportsListFragment"
         android:label="Reports List"
         tools:layout="@layout/fragment_reports_list">
         <argument
@@ -36,7 +36,7 @@
         app:destination="@id/spotsListFragment" />
     <fragment
         android:id="@+id/reportDetailsFragment"
-        android:name="com.example.where2surf.ReportDetailsFragment"
+        android:name="com.example.where2surf.UI.reportDetails.ReportDetailsFragment"
         android:label="Report details"
         tools:layout="@layout/fragment_report_details">
         <argument
@@ -46,10 +46,10 @@
 
 
     <fragment
-        android:id="@+id/signinFragment"
-        android:name="com.example.where2surf.SigninFragment"
-        android:label="Sign In"
-        tools:layout="@layout/fragment_signin" />
+        android:id="@+id/loginFragment"
+        android:name="com.example.where2surf.LoginFragment"
+        android:label="Log In"
+        tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/signupFragment"
         android:name="com.example.where2surf.SignupFragment"
@@ -60,10 +60,10 @@
         app:destination="@id/signupFragment" />
     <action
         android:id="@+id/action_global_loginFragment"
-        app:destination="@id/signinFragment" />
+        app:destination="@id/loginFragment" />
     <fragment
         android:id="@+id/userProfileFragment"
-        android:name="com.example.where2surf.UserProfileFragment"
+        android:name="com.example.where2surf.UI.userProfile.UserProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_user_profile">
         <argument
@@ -86,8 +86,8 @@
     </fragment>
     <fragment
         android:id="@+id/userReportsListFragment"
-        android:name="com.example.where2surf.UserReportsListFragment"
+        android:name="com.example.where2surf.UI.reportsList.UserReportsListFragment"
         android:label="My reports"
-        tools:layout="@layout/fragment_user_reports_list" />
+        tools:layout="@layout/fragment_reports_list" />
     <action android:id="@+id/action_global_userReportsListFragment" app:destination="@id/userReportsListFragment" /><action android:id="@+id/action_global_reportDetailsFragment" app:destination="@id/reportDetailsFragment"/>
 </navigation>

@@ -44,7 +44,7 @@ public class UserModel {
         UserFirebase.signOut();
     }
 
-    public boolean isSignedIn() {
+    public boolean isLoggedIn() {
         return UserFirebase.isSignedIn();
     }
 
