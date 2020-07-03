@@ -19,4 +19,7 @@ public interface SpotDao {
 
     @Delete
     void delete(Spot spot);
+
+    @Query("SELECT * FROM Spots WHERE name LIKE :spotName")
+    LiveData<Spot> getSpot(String spotName);
 }

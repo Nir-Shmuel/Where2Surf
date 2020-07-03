@@ -51,7 +51,7 @@
     <string name="user_profile_email">Email</string>
     <string name="profile_edit_btn">Edit</string>
     <string name="profile_take_photo_btn">Take photo</string>
-    <string name="welcome_to_where2surf">Welcome to Where2Surf</string>
+    <string name="welcome_to_where2surf">Welcome, Where2Surf</string>
     <string name="about_app_details">WTS was created to simplify surf conditions report, by containing each spot\'s reports in one place.\n\n Everyone can see the reports, but only the app users can report and rate the report\'s reliability.</string>
     <string name="drawer_about_wts">About WTS</string>
     <string name="drawer_spots">Spots</string>

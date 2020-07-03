@@ -14,11 +14,13 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.where2surf.UI.reportsList.ReportsListFragment;
-import com.example.where2surf.UI.reportsList.SpotReportsListFragmentDirections;
+import com.example.where2surf.UI.registration.LoginFragmentDirections;
+import com.example.where2surf.UI.reports.reportsList.ReportsListFragment;
+import com.example.where2surf.UI.reports.reportsList.SpotReportsListFragmentDirections;
 import com.example.where2surf.UI.spots.SpotsListFragment;
 import com.example.where2surf.UI.spots.SpotsListFragmentDirections;
 import com.example.where2surf.model.Spot;
@@ -49,9 +51,6 @@ public class MainActivity extends AppCompatActivity implements ReportsListFragme
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 signout();
-                updateUI();
-                drawer.closeDrawers();
-                navController.navigate(SpotsListFragmentDirections.actionGlobalSpotsListFragment());
                 return true;
             }
         });
@@ -63,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements ReportsListFragme
         navController = Navigation.findNavController(this, R.id.main_nav_host);
         NavigationUI.setupWithNavController(navigationView, navController);
         setOnNavControllerDestinationChanged();
-
     }
 
     private void setOnNavControllerDestinationChanged() {
@@ -104,12 +102,16 @@ public class MainActivity extends AppCompatActivity implements ReportsListFragme
 
     public void signout() {
         UserModel.instance.signOut();
+        updateUI();
+        drawer.closeDrawers();
+        navController.navigate(LoginFragmentDirections.actionGlobalLoginFragment());
     }
 
     public void updateUI() {
         boolean isSignedIn = UserModel.instance.isLoggedIn();
-        navigationView.getMenu().setGroupVisible(R.id.drawer_group_registered, isSignedIn);
-        navigationView.getMenu().setGroupVisible(R.id.drawer_group_unregistered, !isSignedIn);
+        Menu menu = navigationView.getMenu();
+        menu.setGroupVisible(R.id.drawer_group_registered, isSignedIn);
+        menu.setGroupVisible(R.id.drawer_group_unregistered, !isSignedIn);
     }
 
     @Override
@@ -121,6 +123,4 @@ public class MainActivity extends AppCompatActivity implements ReportsListFragme
     public void OnItemSelected(Report report) {
         navController.navigate(SpotReportsListFragmentDirections.actionGlobalReportDetailsFragment(report));
     }
-
-
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddReportFragment">
+    tools:context=".UI.reports.addReport.AddReportFragment">
 
     <ImageView
         android:id="@+id/add_report_image"

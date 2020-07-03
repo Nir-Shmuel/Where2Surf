@@ -104,30 +104,24 @@ public class ReportModel {
 
     public LiveData<Report> getReport(String reportId) {
         LiveData<Report> reportLiveData = AppLocalDb.db.reportDao().getReport(reportId);
-        refreshReportDetails(reportId, null);
+        refreshReportDetails(reportId);
         return reportLiveData;
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void refreshReportDetails(String reportId, final CompleteListener listener) {
+    public void refreshReportDetails(String reportId) {
         ReportFirebase.getReportById(reportId, new Listener<Report>() {
             @Override
             public void onComplete(final Report data) {
-                new AsyncTask<String, String, String>() {
-                    @Override
-                    protected String doInBackground(String... strings) {
-                        if (data != null) {
+                if (data != null) {
+                    new AsyncTask<String, String, String>() {
+                        @Override
+                        protected String doInBackground(String... strings) {
                             AppLocalDb.db.reportDao().insertAll(data);
+                            return null;
                         }
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(String s) {
-                        super.onPostExecute(s);
-                        if (listener != null) listener.onComplete();
-                    }
-                }.execute("");
+                    }.execute("");
+                }
             }
         });
     }
@@ -155,12 +149,14 @@ public class ReportModel {
         });
     }
 
-    public void setReportImageUrl(String reportId, String imageUrl, Listener<Boolean> listener) {
+    public void setReportImageUrl(String reportId, String
+            imageUrl, Listener<Boolean> listener) {
         ReportFirebase.setReportImageUrl(reportId, imageUrl, listener);
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void updateReportRating(final Report report, float newRating, final Listener<Boolean> listener) {
+    public void updateReportRating(final Report report, float newRating,
+                                   final Listener<Boolean> listener) {
         final int n = report.getNumReliabilityCritics();
         float oldRating = report.getReliabilityRating();
         final float avgRating = oldRating * n / (n + 1) + newRating / (n + 1);

@@ -1,4 +1,4 @@
-package com.example.where2surf.UI.reportDetails;
+package com.example.where2surf.UI.reports.reportDetails;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;

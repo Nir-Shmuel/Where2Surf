@@ -1,14 +1,10 @@
 package com.example.where2surf.model;
 
 import androidx.annotation.NonNull;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity(tableName = "Users")
 public class User implements Serializable {
-    @PrimaryKey
     @NonNull
     private String id;
     @NonNull
@@ -18,12 +14,8 @@ public class User implements Serializable {
     private String lastName;
     private long lastUpdated;
 
-    public User() {
-    }
-
-    public User(String firstName, String lastName, @NonNull String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(@NonNull String id, @NonNull String email) {
+        this.id = id;
         this.email = email;
     }
 
@@ -60,11 +52,12 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
+    @NonNull
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(@NonNull String email) {
         this.email = email;
     }
 

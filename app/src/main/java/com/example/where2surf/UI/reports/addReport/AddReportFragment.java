@@ -1,11 +1,16 @@
-package com.example.where2surf;
+package com.example.where2surf.UI.reports.addReport;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.provider.MediaStore;
@@ -18,6 +23,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.example.where2surf.R;
+import com.example.where2surf.UI.reports.addReport.AddReportFragmentArgs;
+import com.example.where2surf.UI.reports.reportDetails.ReportDetailsViewModel;
 import com.example.where2surf.model.Report;
 import com.example.where2surf.model.ReportModel;
 import com.example.where2surf.model.Spot;
@@ -37,6 +45,8 @@ public class AddReportFragment extends Fragment {
     private static String SAVE_IMAGE_FAILED_ERROR = "Failed to save image. Please try again by editing your report.";
     private static final String INVALID_FORM_ERROR = "Form not valid. Please fill all fields.";
 
+    AddReportViewModel viewModel;
+    LiveData<Spot> spotLiveData;
     View view;
     Spot spot;
     ImageView image;
@@ -65,6 +75,13 @@ public class AddReportFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_add_report, container, false);
         if (getArguments() != null)
             spot = AddReportFragmentArgs.fromBundle(getArguments()).getSpot();
+        spotLiveData = viewModel.getSpotLiveData(spot.getName());
+        spotLiveData.observe(getViewLifecycleOwner(), new Observer<Spot>() {
+            @Override
+            public void onChanged(Spot _spot) {
+                spot = _spot;
+            }
+        });
         image = view.findViewById(R.id.add_report_image);
         wavesHeightEt = view.findViewById(R.id.add_report_waves_height_et);
         windSpeedEt = view.findViewById(R.id.add_report_wind_speed_et);
@@ -91,6 +108,12 @@ public class AddReportFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel =  new ViewModelProvider(this).get(AddReportViewModel.class);
     }
 
     private boolean validateForm() {

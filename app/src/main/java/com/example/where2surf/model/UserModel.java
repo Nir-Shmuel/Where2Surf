@@ -36,7 +36,7 @@ public class UserModel {
         UserFirebase.signIn(email, password, listener);
     }
 
-    public void signUp(String email, String password, Listener<Boolean> listener) {
+    public void signUp(String email, String password, Listener<String> listener) {
         UserFirebase.singUp(email, password, listener);
     }
 

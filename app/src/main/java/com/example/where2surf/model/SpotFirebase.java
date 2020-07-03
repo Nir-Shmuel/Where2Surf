@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -94,5 +95,17 @@ public class SpotFirebase {
         Timestamp timestamp = (Timestamp) json.get("lastUpdated");
         if (timestamp != null) spot.setLastUpdated(timestamp.toDate().getTime());
         return spot;
+    }
+
+    public static void getSpotByName(final String spotName, final SpotModel.Listener<Spot> listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(SPOT_COLLECTION).document(spotName).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot res = task.getResult();
+                if (res != null && res.getData()!=null)
+                    listener.onComplete(spotFromJson(res.getData()));
+            }
+        });
     }
 }

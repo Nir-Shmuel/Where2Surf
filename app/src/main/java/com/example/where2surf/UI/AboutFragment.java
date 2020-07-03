@@ -1,4 +1,4 @@
-package com.example.where2surf;
+package com.example.where2surf.UI;
 
 import android.os.Bundle;
 
@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.where2surf.UI.registration.LoginFragmentDirections;
+import com.example.where2surf.R;
+import com.example.where2surf.UI.registration.SignupFragmentDirections;
 import com.example.where2surf.UI.spots.SpotsListFragmentDirections;
 import com.example.where2surf.model.UserModel;
 

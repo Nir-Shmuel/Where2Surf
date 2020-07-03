@@ -1,4 +1,4 @@
-package com.example.where2surf;
+package com.example.where2surf.UI.registration;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +21,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.example.where2surf.MainActivity;
+import com.example.where2surf.R;
 import com.example.where2surf.model.StoreModel;
 import com.example.where2surf.model.User;
 import com.example.where2surf.model.UserModel;
@@ -85,10 +87,14 @@ public class SignupFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 hideKeyboard();
-                progressBar.setVisibility(View.VISIBLE);
-                takePhotoBtn.setClickable(false);
-                sendBtn.setClickable(false);
-                signUp();
+                if (validateForm()) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    takePhotoBtn.setClickable(false);
+                    sendBtn.setClickable(false);
+                    signUp();
+                } else {
+                    registrationFailed(INVALID_FORM_ERROR);
+                }
             }
         });
 
@@ -97,8 +103,13 @@ public class SignupFragment extends Fragment {
 
     public void hideKeyboard() {
         if (view != null) {
-            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            FragmentActivity activity = getActivity();
+            InputMethodManager inputManager;
+            if (activity != null) {
+                inputManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (inputManager != null)
+                    inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
     }
 
@@ -120,31 +131,27 @@ public class SignupFragment extends Fragment {
     }
 
     private void saveUser(final String imageUrl) {
-        if (validateForm()) {
-            final String email = emailEt.getText().toString();
-            final String pwd = pwdEt.getText().toString();
-            UserModel.instance.signUp(email, pwd, new UserModel.Listener<Boolean>() {
-                @Override
-                public void onComplete(Boolean data) {
-                    if (data) {
-                        User user = new User();
-                        user.setEmail(emailEt.getText().toString());
-                        user.setFirstName(firstNameEt.getText().toString());
-                        user.setLastName(lastNameEt.getText().toString());
-                        user.setImageUrl(imageUrl);
-                        UserModel.instance.addUser(user, null);
-                        MainActivity activity = (MainActivity) getActivity();
-                        if (activity != null)
-                            activity.updateUI();
-                        Navigation.findNavController(view).navigateUp();
-                    } else {
-                        registrationFailed(INVALID_FORM_ERROR);
-                    }
+        final String email = emailEt.getText().toString();
+        final String pwd = pwdEt.getText().toString();
+        UserModel.instance.signUp(email, pwd, new UserModel.Listener<String>() {
+            @Override
+            public void onComplete(String data) {
+                if (data != null) {
+                    String email = emailEt.getText().toString();
+                    User user = new User(data, email);
+                    user.setFirstName(firstNameEt.getText().toString());
+                    user.setLastName(lastNameEt.getText().toString());
+                    user.setImageUrl(imageUrl);
+                    UserModel.instance.addUser(user, null);
+                    MainActivity activity = (MainActivity) getActivity();
+                    if (activity != null)
+                        activity.updateUI();
+                    Navigation.findNavController(view).navigateUp();
+                } else {
+                    registrationFailed(INVALID_FORM_ERROR);
                 }
-            });
-        } else {
-            registrationFailed(INVALID_FORM_ERROR);
-        }
+            }
+        });
     }
 
     private void registrationFailed(String errorMsg) {
@@ -177,36 +184,40 @@ public class SignupFragment extends Fragment {
     }
 
     private boolean validateForm() {
-        return checkEmail(emailEt.getText().toString())
-                && checkName(firstNameEt.getText().toString())
-                && checkName(lastNameEt.getText().toString())
-                && checkPassword(pwdEt.getText().toString(), valPedEt.getText().toString());
+        return checkEmail(emailEt)
+                && checkName(firstNameEt)
+                && checkName(lastNameEt)
+                && checkPassword(pwdEt, valPedEt);
     }
 
-    private boolean checkEmail(String email) {
-        if (email == null) {
-            return false;
-        }
-        if (email.contains("@")) {
-            return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-        } else {
-            return !email.trim().isEmpty();
-        }
+    private boolean checkEmail(EditText emailEt) {
+        String email = emailEt.getText().toString();
+        if (email.contains("@") && Patterns.EMAIL_ADDRESS.matcher(email).matches() && !email.trim().isEmpty())
+            return true;
+        emailEt.setError("Email not valid.");
+        return false;
     }
 
-    private boolean checkName(String name) {
-        if (name == null)
-            return false;
-        return !name.trim().isEmpty();
+    private boolean checkName(EditText nameEt) {
+        String name = nameEt.getText().toString();
+        if (!name.trim().isEmpty() && Character.isUpperCase(name.charAt(0)))
+            return true;
+        nameEt.setError("Name must start with capital letter.");
+        return false;
     }
 
-    private boolean checkPassword(String pwd, String valPwd) {
-        if (pwd == null || valPwd == null) {
+    private boolean checkPassword(EditText pwdEt, EditText valPwdEt) {
+        String pwd = pwdEt.getText().toString();
+        String valPwd = valPwdEt.getText().toString();
+
+        if (pwd.length() < 5) {
+            pwdEt.setError("Password must be minimum 5 length.");
+            return false;
+        } else if (!pwd.equals(valPwd)) {
+            valPwdEt.setError("Validation password is not equal to password.");
             return false;
         }
-        if (pwd.length() < 5)
-            return false;
-        return pwd.equals(valPwd);
+        return true;
     }
 
 }

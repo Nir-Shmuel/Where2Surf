@@ -1,4 +1,4 @@
-package com.example.where2surf.UI.reportsList;
+package com.example.where2surf.UI.reports.reportsList;
 
 import android.content.Context;
 import android.os.Bundle;

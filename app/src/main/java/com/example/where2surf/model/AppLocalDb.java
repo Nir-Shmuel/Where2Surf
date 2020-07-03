@@ -6,13 +6,11 @@ import androidx.room.RoomDatabase;
 
 import com.example.where2surf.MyApplication;
 
-@Database(entities = {Spot.class, Report.class, User.class}, version = 1)
+@Database(entities = {Spot.class, Report.class}, version = 1)
 abstract class AppLocalDbRepository extends RoomDatabase {
     public abstract SpotDao spotDao();
 
     public abstract ReportDao reportDao();
-
-    public abstract UserDao userDao();
 }
 
 public class AppLocalDb {

@@ -5,7 +5,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
@@ -14,7 +13,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,11 +32,6 @@ public class UserFirebase {
                         listener.onComplete(task.isSuccessful());
                     }
                 }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-
-                }
             });
         }
     }
@@ -53,9 +46,9 @@ public class UserFirebase {
         return json;
     }
 
-    private static User userFromJson(Map<String, Object> json) {
-        User user = new User();
-        user.setEmail((String) json.get("email"));
+    private static User userFromJson(String id, Map<String, Object> json) {
+        String email = (String) json.get("email");
+        User user = new User(id, email != null ? email : "");
         user.setFirstName((String) json.get("firstName"));
         user.setLastName((String) json.get("lastName"));
         user.setImageUrl((String) json.get("imageUrl"));
@@ -67,7 +60,7 @@ public class UserFirebase {
     public static void getCurrentUserDetails(final UserModel.Listener<User> listener) {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
-            String id = firebaseUser.getUid();
+            final String id = firebaseUser.getUid();
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection(USER_COLLECTION).document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -76,7 +69,7 @@ public class UserFirebase {
                     if (taskResult != null) {
                         Map<String, Object> data = taskResult.getData();
                         if (data != null) {
-                            listener.onComplete(userFromJson(data));
+                            listener.onComplete(userFromJson(id, data));
                         } else {
                             listener.onComplete(null);
                         }
@@ -109,12 +102,13 @@ public class UserFirebase {
         FirebaseAuth.getInstance().signOut();
     }
 
-    public static void singUp(String email, String password, final UserModel.Listener<Boolean> listener) {
+    public static void singUp(String email, String password, final UserModel.Listener<String> listener) {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        listener.onComplete(task.isSuccessful());
+                        String id = getCurrentUserId();
+                        listener.onComplete(id);
                     }
                 });
     }

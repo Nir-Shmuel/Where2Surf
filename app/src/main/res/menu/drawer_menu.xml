@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+    xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@id/aboutFragment"
         android:title="@string/drawer_about_wts" />
@@ -25,7 +24,6 @@
             android:id="@id/userReportsListFragment"
             android:title="@string/drawer_my_reports"/>
         <item
-
             android:id="@+id/signout"
             android:title="@string/drawer_sign_out" />
     </group>

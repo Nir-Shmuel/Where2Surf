@@ -1,9 +1,10 @@
-package com.example.where2surf;
+package com.example.where2surf.UI.registration;
 
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.Navigation;
 
 import android.util.Patterns;
@@ -15,6 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.example.where2surf.MainActivity;
+import com.example.where2surf.R;
 import com.example.where2surf.model.UserModel;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -73,7 +76,7 @@ public class LoginFragment extends Fragment {
                             }
                         }
                     });
-                }else{
+                } else {
                     signInFailed(INVALID_FORM_MESSAGE);
                 }
             }
@@ -91,28 +94,34 @@ public class LoginFragment extends Fragment {
 
     public void hideKeyboard() {
         if (view != null) {
-            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            FragmentActivity activity = getActivity();
+            InputMethodManager inputManager;
+            if (activity != null) {
+                inputManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (inputManager != null)
+                    inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
     }
 
     private boolean validateForm() {
-        return checkEmail(usernameEt.getText().toString())
-                && checkPassword(pwdEt.getText().toString());
+        return checkEmail(usernameEt)
+                && checkPassword(pwdEt);
     }
 
-    private boolean checkEmail(String email) {
-        if (email == null) {
-            return false;
-        }
-        if (email.contains("@")) {
-            return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-        } else {
-            return !email.trim().isEmpty();
-        }
+    private boolean checkEmail(EditText emailEt) {
+        String email = emailEt.getText().toString();
+        if (email.contains("@") && Patterns.EMAIL_ADDRESS.matcher(email).matches() && !email.trim().isEmpty())
+            return true;
+        emailEt.setError("Email not valid.");
+        return false;
     }
 
-    private boolean checkPassword(String pwd) {
-        return pwd != null && !pwd.equals("");
+    private boolean checkPassword(EditText pwdEt) {
+        String pwd = pwdEt.getText().toString();
+        if (pwd.trim().length() > 5)
+            return true;
+        pwdEt.setError("Password must be minimum 5 length.");
+        return false;
     }
 }
