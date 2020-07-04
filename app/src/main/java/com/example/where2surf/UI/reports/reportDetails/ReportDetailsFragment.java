@@ -1,6 +1,8 @@
 package com.example.where2surf.UI.reports.reportDetails;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -256,11 +258,32 @@ public class ReportDetailsFragment extends Fragment {
                 return true;
 
             case R.id.menu_report_details_delete:
-                deleteReport();
+                alertDeleteDialog().show();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private AlertDialog alertDeleteDialog() {
+        AlertDialog dialog = new AlertDialog.Builder(getContext())
+                // set message, title, and icon
+                .setTitle("Deleting a report is irreversible.")
+                .setMessage("Are you sure you want to continue?")
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        deleteReport();
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+
+        return dialog;
     }
 
     private void deleteReport() {
