@@ -189,14 +189,16 @@ public class UserProfileFragment extends Fragment {
     }
 
     private boolean validateForm() {
-        return checkName(firstNameEt.getText().toString())
-                && checkName(lastNameEt.getText().toString());
+        return checkName(firstNameEt)
+                && checkName(lastNameEt);
     }
 
-    private boolean checkName(String name) {
-        if (name == null)
-            return false;
-        return !name.trim().isEmpty();
+    private boolean checkName(EditText nameEt) {
+        String name = nameEt.getText().toString();
+        if (!name.trim().isEmpty() && Character.isUpperCase(name.charAt(0)))
+            return true;
+        nameEt.setError("Name must start with capital letter.");
+        return false;
     }
 
     private void setEditable(boolean b) {

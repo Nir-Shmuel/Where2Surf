@@ -37,17 +37,15 @@ import com.squareup.picasso.Picasso;
 
 import static android.app.Activity.RESULT_OK;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ReportDetailsFragment extends Fragment {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final String REPORT_FAILED_ERROR = "Failed to report. Please try again.";
-    private static final String SAVE_IMAGE_FAILED_ERROR = "Failed to save image. Please try again.";
-    private static final String RATE_REPORT_SUCCEEDED_ERROR = "Thank you for rating the report.";
-    private static final String RATE_REPORT_FAILED_ERROR = "Failed to rate report. Please try again.";
-    private static final String INVALID_FORM_ERROR = "Form not valid. Please fill all fields.";
+    private static final String REPORT_FAILED_MESSAGE = "Failed to report. Please try again.";
+    private static final String SAVE_IMAGE_FAILED_MESSAGE = "Failed to save image. Please try again.";
+    private static final String RATE_REPORT_SUCCEEDED_MESSAGE = "Thank you for rating the report.";
+    private static final String RATE_REPORT_FAILED_MESSAGE = "Failed to rate report. Please try again.";
+    private static final String INVALID_FORM_MESSAGE = "Form not valid. Please fill all fields.";
+    private static final String EMPTY_FIELD_MESSAGE = "Field must not be empty.";
 
     ReportDetailsViewModel viewModel;
     LiveData<Report> reportLiveData;
@@ -102,9 +100,14 @@ public class ReportDetailsFragment extends Fragment {
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                setEditable(false);
-                editReport();
+                if (validateForm()) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    setEditable(false);
+                    editReport();
+                } else {
+                    messageUser(INVALID_FORM_MESSAGE);
+                    setEditable(true);
+                }
             }
         });
         if (getArguments() != null)
@@ -133,7 +136,6 @@ public class ReportDetailsFragment extends Fragment {
         rateBtn.setClickable(false);
         progressBar.setVisibility(View.VISIBLE);
         ReportModel.instance.updateReportRating(report, reliabilityRating.getRating(), new ReportModel.Listener<Boolean>() {
-
             @Override
             public void onComplete(Boolean data) {
                 progressBar.setVisibility(View.INVISIBLE);
@@ -141,64 +143,47 @@ public class ReportDetailsFragment extends Fragment {
                     updateView(report);
                     reliabilityRating.setIsIndicator(true);
                 }
-                messageUser(data ? RATE_REPORT_SUCCEEDED_ERROR : RATE_REPORT_FAILED_ERROR);
+                messageUser(data ? RATE_REPORT_SUCCEEDED_MESSAGE : RATE_REPORT_FAILED_MESSAGE);
             }
         });
     }
 
-    private void saveImage(final String reportId) {
-        if (imageBitmap != null) {
-            StoreModel.uploadReportImage(imageBitmap, reportId, new StoreModel.Listener() {
-                @Override
-                public void onSuccess(String url) {
-                    ReportModel.instance.setReportImageUrl(reportId, url, new ReportModel.Listener<Boolean>() {
-                        @Override
-                        public void onComplete(Boolean data) {
-                            if (data) {
-                                progressBar.setVisibility(View.INVISIBLE);
-                                setBtnVisibility(false);
-                            } else {
-                                messageUser(SAVE_IMAGE_FAILED_ERROR);
-                                setEditable(true);
-                            }
-                        }
-                    });
-                }
+    private void editReport() {
+        final String reportId = report.getId();
+        StoreModel.uploadReportImage(imageBitmap, reportId, new StoreModel.Listener() {
+            @Override
+            public void onSuccess(String url) {
+                setChanges(url);
+            }
 
-                @Override
-                public void onFail() {
-                    messageUser(REPORT_FAILED_ERROR);
-                    setEditable(true);
-                }
-            });
-        } else {
-            progressBar.setVisibility(View.INVISIBLE);
-            setBtnVisibility(false);
-        }
+            @Override
+            public void onFail() {
+                messageUser(SAVE_IMAGE_FAILED_MESSAGE);
+                setEditable(true);
+            }
+        });
+
+
     }
 
-    private void editReport() {
-        if (validateForm()) {
-            report.setWavesHeight(Integer.parseInt(wavesHeightEt.getText().toString()));
-            report.setWindSpeed(Integer.parseInt(windSpeedEt.getText().toString()));
-            report.setNumOfSurfers(Integer.parseInt(surfersNumEt.getText().toString()));
-            report.setContaminated(spotContaminationCb.isChecked());
-            ReportModel.instance.updateReport(report, new ReportModel.Listener<Boolean>() {
-                @Override
-                public void onComplete(Boolean data) {
-                    if (data) {
-                        saveImage(report.getId());
-                    } else {
-                        messageUser(REPORT_FAILED_ERROR);
-                        setEditable(true);
-                    }
+    private void setChanges(String url) {
+        report.setWavesHeight(Integer.parseInt(wavesHeightEt.getText().toString()));
+        report.setWindSpeed(Integer.parseInt(windSpeedEt.getText().toString()));
+        report.setNumOfSurfers(Integer.parseInt(surfersNumEt.getText().toString()));
+        report.setContaminated(spotContaminationCb.isChecked());
+        report.setImageUrl(url);
+        ReportModel.instance.updateReport(report, new ReportModel.Listener<Boolean>() {
+            @Override
+            public void onComplete(Boolean data) {
+                if (data) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    setBtnVisibility(false);
+                } else {
+                    messageUser(REPORT_FAILED_MESSAGE);
+                    setEditable(true);
                 }
-            });
-        } else {
-            messageUser(INVALID_FORM_ERROR);
-            setEditable(true);
-        }
-
+            }
+        });
     }
 
     private void messageUser(String msg) {
@@ -243,13 +228,17 @@ public class ReportDetailsFragment extends Fragment {
     }
 
     private boolean validateForm() {
-        return isNotEmpty(wavesHeightEt.getText().toString()) &&
-                isNotEmpty(windSpeedEt.getText().toString()) &&
-                isNotEmpty(surfersNumEt.getText().toString());
+        return isNotEmpty(wavesHeightEt) &&
+                isNotEmpty(windSpeedEt) &&
+                isNotEmpty(surfersNumEt);
     }
 
-    private boolean isNotEmpty(String field) {
-        return field != null && !field.trim().isEmpty();
+    private boolean isNotEmpty(EditText fieldEt) {
+        String text = fieldEt.getText().toString();
+        if (!text.trim().isEmpty())
+            return true;
+        fieldEt.setError(EMPTY_FIELD_MESSAGE);
+        return false;
     }
 
     @Override

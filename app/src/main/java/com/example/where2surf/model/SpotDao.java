@@ -17,9 +17,6 @@ public interface SpotDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Spot... spots);
 
-    @Delete
-    void delete(Spot spot);
-
     @Query("SELECT * FROM Spots WHERE name LIKE :spotName")
     LiveData<Spot> getSpot(String spotName);
 }

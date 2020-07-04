@@ -24,8 +24,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.example.where2surf.R;
-import com.example.where2surf.UI.reports.addReport.AddReportFragmentArgs;
-import com.example.where2surf.UI.reports.reportDetails.ReportDetailsViewModel;
 import com.example.where2surf.model.Report;
 import com.example.where2surf.model.ReportModel;
 import com.example.where2surf.model.Spot;
@@ -41,9 +39,10 @@ import static android.app.Activity.RESULT_OK;
  */
 public class AddReportFragment extends Fragment {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static String REPORT_FAILED_ERROR = "Failed to report. Please try again.";
-    private static String SAVE_IMAGE_FAILED_ERROR = "Failed to save image. Please try again by editing your report.";
-    private static final String INVALID_FORM_ERROR = "Form not valid. Please fill all fields.";
+    private static final String REPORT_FAILED_MESSAGE = "Failed to report. Please try again.";
+    private static final String SAVE_IMAGE_FAILED_MESSAGE = "Failed to save image. Please try again by editing your report.";
+    private static final String INVALID_FORM_MESSAGE = "Form not valid. Please fill all fields.";
+    private static final String EMPTY_FIELD_MESSAGE = "Field must not be empty.";
 
     AddReportViewModel viewModel;
     LiveData<Spot> spotLiveData;
@@ -52,7 +51,7 @@ public class AddReportFragment extends Fragment {
     ImageView image;
     EditText wavesHeightEt;
     EditText windSpeedEt;
-    EditText numOfSurfersEt;
+    EditText surfersNumEt;
     CheckBox spotContaminationCtv;
     ProgressBar progressBar;
     Button takePhotoBtn;
@@ -85,7 +84,7 @@ public class AddReportFragment extends Fragment {
         image = view.findViewById(R.id.add_report_image);
         wavesHeightEt = view.findViewById(R.id.add_report_waves_height_et);
         windSpeedEt = view.findViewById(R.id.add_report_wind_speed_et);
-        numOfSurfersEt = view.findViewById(R.id.add_report_num_of_surfers_et);
+        surfersNumEt = view.findViewById(R.id.add_report_num_of_surfers_et);
         spotContaminationCtv = view.findViewById(R.id.add_report_is_contaminated_ctv);
         progressBar = view.findViewById(R.id.add_report_progress);
         progressBar.setVisibility(View.INVISIBLE);
@@ -101,10 +100,14 @@ public class AddReportFragment extends Fragment {
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                takePhotoBtn.setClickable(false);
-                sendBtn.setClickable(false);
-                saveReport();
+                if (validateForm()) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    takePhotoBtn.setClickable(false);
+                    sendBtn.setClickable(false);
+                    saveReport();
+                } else {
+                    reportFailedMessage(INVALID_FORM_MESSAGE);
+                }
             }
         });
         return view;
@@ -113,17 +116,21 @@ public class AddReportFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        viewModel =  new ViewModelProvider(this).get(AddReportViewModel.class);
+        viewModel = new ViewModelProvider(this).get(AddReportViewModel.class);
     }
 
     private boolean validateForm() {
-        return isNotEmpty(wavesHeightEt.getText().toString()) &&
-                isNotEmpty(windSpeedEt.getText().toString()) &&
-                isNotEmpty(numOfSurfersEt.getText().toString());
+        return isNotEmpty(wavesHeightEt) &&
+                isNotEmpty(windSpeedEt) &&
+                isNotEmpty(surfersNumEt);
     }
 
-    private boolean isNotEmpty(String field) {
-        return field != null && !field.trim().isEmpty();
+    private boolean isNotEmpty(EditText fieldEt) {
+        String text = fieldEt.getText().toString();
+        if (!text.trim().isEmpty())
+            return true;
+        fieldEt.setError(EMPTY_FIELD_MESSAGE);
+        return false;
     }
 
     private void saveImage(final String reportId) {
@@ -138,7 +145,7 @@ public class AddReportFragment extends Fragment {
                                 ReportModel.instance.refreshSpotReportsList(spot, null);
                                 Navigation.findNavController(view).navigateUp();
                             } else {
-                                reportFailed(SAVE_IMAGE_FAILED_ERROR);
+                                reportFailedMessage(SAVE_IMAGE_FAILED_MESSAGE);
                             }
                         }
                     });
@@ -146,7 +153,7 @@ public class AddReportFragment extends Fragment {
 
                 @Override
                 public void onFail() {
-                    reportFailed(REPORT_FAILED_ERROR);
+                    reportFailedMessage(REPORT_FAILED_MESSAGE);
                 }
             });
         } else {
@@ -156,38 +163,32 @@ public class AddReportFragment extends Fragment {
     }
 
     private void saveReport() {
-        if (validateForm()) {
-            UserModel.instance.getCurrentUserDetails(new UserModel.Listener<User>() {
-                @Override
-                public void onComplete(User data) {
-                    Report report = new Report();
-                    report.setReporterName(data.getFirstName() + " " + data.getLastName());
-                    report.setSpotName(spot.getName());
-                    report.setWavesHeight(Integer.parseInt(wavesHeightEt.getText().toString()));
-                    report.setWindSpeed(Integer.parseInt(windSpeedEt.getText().toString()));
-                    report.setNumOfSurfers(Integer.parseInt(numOfSurfersEt.getText().toString()));
-                    report.setContaminated(spotContaminationCtv.isChecked());
-                    report.setImageUrl("");
-                    ReportModel.instance.addReport(report, new ReportModel.Listener<Report>() {
-                        @Override
-                        public void onComplete(Report data) {
-                            if (data != null) {
-                                saveImage(data.getId());
-                            } else {
-                                reportFailed(REPORT_FAILED_ERROR);
-                            }
+        UserModel.instance.getCurrentUserDetails(new UserModel.Listener<User>() {
+            @Override
+            public void onComplete(User data) {
+                Report report = new Report();
+                report.setReporterName(data.getFirstName() + " " + data.getLastName());
+                report.setSpotName(spot.getName());
+                report.setWavesHeight(Integer.parseInt(wavesHeightEt.getText().toString()));
+                report.setWindSpeed(Integer.parseInt(windSpeedEt.getText().toString()));
+                report.setNumOfSurfers(Integer.parseInt(surfersNumEt.getText().toString()));
+                report.setContaminated(spotContaminationCtv.isChecked());
+                report.setImageUrl("");
+                ReportModel.instance.addReport(report, new ReportModel.Listener<Report>() {
+                    @Override
+                    public void onComplete(Report data) {
+                        if (data != null) {
+                            saveImage(data.getId());
+                        } else {
+                            reportFailedMessage(REPORT_FAILED_MESSAGE);
                         }
-                    });
-                }
-            });
-
-        } else {
-            reportFailed(INVALID_FORM_ERROR);
-        }
-
+                    }
+                });
+            }
+        });
     }
 
-    private void reportFailed(String errorMsg) {
+    private void reportFailedMessage(String errorMsg) {
         progressBar.setVisibility(View.INVISIBLE);
         Snackbar mySnackbar = Snackbar.make(view, errorMsg, Snackbar.LENGTH_LONG);
         mySnackbar.show();

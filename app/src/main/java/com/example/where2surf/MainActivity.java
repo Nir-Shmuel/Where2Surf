@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements ReportsListFragme
                             @Override
                             public void onClick(View v) {
                                 onBackPressed();
+                                MainActivity.this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                             }
                         });
                     } else {
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements ReportsListFragme
                             @Override
                             public void onClick(View v) {
                                 drawer.openDrawer(GravityCompat.START);
+                                MainActivity.this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                             }
                         });
                     }

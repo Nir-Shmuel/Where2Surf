@@ -17,6 +17,8 @@
         tools:layout="@layout/fragment_spots_list">
         <action
             android:id="@+id/action_spotsListFragment_to_spotReportListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
             app:destination="@id/spotReportsListFragment" />
     </fragment>
     <fragment
@@ -29,10 +31,14 @@
             app:argType="com.example.where2surf.model.Spot" />
         <action
             android:id="@+id/action_spotReportListFragment_to_addReportFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
             app:destination="@id/addReportFragment" />
     </fragment>
     <action
         android:id="@+id/action_global_spotsListFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
         app:destination="@id/spotsListFragment" />
     <fragment
         android:id="@+id/reportDetailsFragment"
@@ -57,9 +63,13 @@
         tools:layout="@layout/fragment_signup" />
     <action
         android:id="@+id/action_global_signupFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
         app:destination="@id/signupFragment" />
     <action
         android:id="@+id/action_global_loginFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
         app:destination="@id/loginFragment" />
     <fragment
         android:id="@+id/userProfileFragment"
@@ -84,5 +94,12 @@
         android:name="com.example.where2surf.UI.reports.reportsList.UserReportsListFragment"
         android:label="My reports"
         tools:layout="@layout/fragment_reports_list" />
-    <action android:id="@+id/action_global_userReportsListFragment" app:destination="@id/userReportsListFragment" /><action android:id="@+id/action_global_reportDetailsFragment" app:destination="@id/reportDetailsFragment"/>
+    <action android:id="@+id/action_global_userReportsListFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:destination="@id/userReportsListFragment" />
+    <action android:id="@+id/action_global_reportDetailsFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:destination="@id/reportDetailsFragment"/>
 </navigation>

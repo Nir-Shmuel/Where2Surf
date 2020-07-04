@@ -3,7 +3,6 @@
 
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
-    <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
@@ -15,7 +14,7 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="report_details_contaminated_cb">Contaminated?</string>
     <string name="report_details_reliability">Report reliability:</string>
-    <string name="report_details_edit_btn">Edit</string>
+    <string name="report_details_edit_btn">Save</string>
     <string name="report_details_delete_btn">Delete</string>
     <string name="signup_first_name_hint">First Name</string>
     <string name="signup_last_name_hint">Last Name</string>
@@ -35,21 +34,21 @@
     <string name="add_report_wind_speed">Wind speed (knots)</string>
     <string name="add_report_waves_height">Waves height (cm)</string>
     <string name="add_report_send_btn">Report</string>
-    <string name="add_report_num_of_surfers">Number of Surfers</string>
+    <string name="add_report_num_of_surfers">Number of surfers</string>
     <string name="add_report_contaminated_cb">Contaminated?</string>
     <string name="spot_report_list_menu_add">Add</string>
     <string name="report_details_waves_height">Waves height (cm)</string>
     <string name="report_details_wind_speed">Wind speed (knots)</string>
     <string name="report_details_num_of_surfers">Number of surfers</string>
     <string name="edit_report_contaminated_cb">Contaminated?</string>
-    <string name="report_details_send_btn">Edit</string>
+    <string name="report_details_send_btn">Save</string>
     <string name="edit_report_waves_height_tv">Waves height (meters):</string>
     <string name="report_details_menu_edit">Edit</string>
     <string name="report_details_menu_delete">Delete</string>
     <string name="user_profile_menu_edit">Edit profile</string>
     <string name="report_details_rate_report_btn">Rate</string>
     <string name="user_profile_email">Email</string>
-    <string name="profile_edit_btn">Edit</string>
+    <string name="profile_edit_btn">Save</string>
     <string name="profile_take_photo_btn">Take photo</string>
     <string name="welcome_to_where2surf">Welcome, Where2Surf</string>
     <string name="about_app_details">WTS was created to simplify surf conditions report, by containing each spot\'s reports in one place.\n\n Everyone can see the reports, but only the app users can report and rate the report\'s reliability.</string>

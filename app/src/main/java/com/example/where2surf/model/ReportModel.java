@@ -32,7 +32,7 @@ public class ReportModel {
     public void refreshSpotReportsList(final Spot spot, final CompleteListener listener) {
         long lastUpdated = MyApplication.context.getSharedPreferences("lastUpdated", Context.MODE_PRIVATE)
                 .getLong("ReportsLastUpdateDate", 0);
-        ReportFirebase.getAllReportsSince(spot, lastUpdated, new Listener<List<Report>>() {
+        ReportFirebase.getAllSpotReportsSince(spot, lastUpdated, new Listener<List<Report>>() {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onComplete(final List<Report> data) {
@@ -149,8 +149,8 @@ public class ReportModel {
         });
     }
 
-    public void setReportImageUrl(String reportId, String
-            imageUrl, Listener<Boolean> listener) {
+    @SuppressLint("StaticFieldLeak")
+    public void setReportImageUrl(String reportId, String imageUrl, final Listener<Boolean> listener) {
         ReportFirebase.setReportImageUrl(reportId, imageUrl, listener);
     }
 

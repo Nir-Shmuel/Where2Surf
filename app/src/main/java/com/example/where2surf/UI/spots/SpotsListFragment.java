@@ -26,10 +26,6 @@ import com.example.where2surf.model.SpotModel;
 import java.util.LinkedList;
 import java.util.List;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class SpotsListFragment extends Fragment {
 
     private RecyclerView spotsList;

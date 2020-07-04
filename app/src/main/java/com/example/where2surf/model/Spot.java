@@ -1,8 +1,5 @@
 package com.example.where2surf.model;
 
-import android.annotation.SuppressLint;
-import android.os.AsyncTask;
-
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -60,19 +57,5 @@ public class Spot implements Serializable {
 
     public void setLastUpdated(long lastUpdated) {
         this.lastUpdated = lastUpdated;
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    public void addReport(final Report report) {
-        if (report != null)
-            new AsyncTask<String, String, String>() {
-
-                @Override
-                protected String doInBackground(String... strings) {
-                    AppLocalDb.db.reportDao().insertAll(report);
-                    return null;
-                }
-            }.execute();
-
     }
 }

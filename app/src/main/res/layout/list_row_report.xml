@@ -11,6 +11,8 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="16dp"
         android:text="@string/list_row_report_name"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/list_row_report_wave_height"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/row_spot_name_tv"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/row_spot_name_tv"
@@ -31,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/list_row_report_wind_speed"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/row_report_wave_height_tv"
         app:layout_constraintStart_toStartOf="@+id/row_report_wave_height_tv"
         app:layout_constraintTop_toBottomOf="@+id/row_report_wave_height_tv" />
@@ -41,6 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/list_row_report_date"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.656"
         app:layout_constraintStart_toEndOf="@+id/row_spot_name_tv"
@@ -52,6 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/list_row_report_report_reliability"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/row_report_date_tv"
         app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="@+id/row_report_date_tv"

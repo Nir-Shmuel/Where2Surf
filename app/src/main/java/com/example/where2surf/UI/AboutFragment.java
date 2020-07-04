@@ -16,10 +16,6 @@ import com.example.where2surf.UI.registration.SignupFragmentDirections;
 import com.example.where2surf.UI.spots.SpotsListFragmentDirections;
 import com.example.where2surf.model.UserModel;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class AboutFragment extends Fragment {
 
     Button spotsListBtn;

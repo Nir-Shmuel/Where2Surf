@@ -48,7 +48,7 @@ public class ReportFirebase {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 DocumentSnapshot res = task.getResult();
-                if (res != null && res.getData()!=null)
+                if (res != null && res.getData() != null)
                     listener.onComplete(reportFromJson(reportId, res.getData()));
             }
         });
@@ -102,7 +102,7 @@ public class ReportFirebase {
                 });
     }
 
-    static void getAllReportsSince(Spot spot, long since, final ReportModel.Listener<List<Report>> listener) {
+    static void getAllSpotReportsSince(Spot spot, long since, final ReportModel.Listener<List<Report>> listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Timestamp timestamp = new Timestamp(new Date(since));
         db.collection(REPORT_COLLECTION).whereEqualTo("spotName", spot.getName())

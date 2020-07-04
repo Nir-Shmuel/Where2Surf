@@ -21,14 +21,6 @@ public class SpotModel {
     public interface CompleteListener {
         void onComplete();
     }
-//            private SpotModel(){
-//        MyApplication.context.deleteDatabase("Where2SurfDb.db");
-////        for (int i = 0; i < 10; i++) {
-////            boolean p = i % 2 == 0;
-////            Spot spot = new Spot("spot " + i, "location " + i, p);
-////            addSpot(spot,null);
-////        }
-//    }
 
     public LiveData<Spot> getSpot(String spotName) {
         LiveData<Spot> spotLiveData = AppLocalDb.db.spotDao().getSpot(spotName);
@@ -112,17 +104,5 @@ public class SpotModel {
                 }.execute();
             }
         });
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    public void addSpot(final Spot spot, Listener<Boolean> listener) {
-        SpotFirebase.addSpot(spot, listener);
-        new AsyncTask<String, String, String>() {
-            @Override
-            protected String doInBackground(String... strings) {
-                AppLocalDb.db.spotDao().insertAll(spot);
-                return null;
-            }
-        }.execute();
     }
 }

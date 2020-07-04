@@ -21,12 +21,11 @@ import com.example.where2surf.R;
 import com.example.where2surf.model.UserModel;
 import com.google.android.material.snackbar.Snackbar;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class LoginFragment extends Fragment {
     private static final String AUTHENTICATION_FAILED_MESSAGE = "Authentication failed.";
-    private static final String INVALID_FORM_MESSAGE = "Form not valid. Please try again.";
+    static final String INVALID_FORM_MESSAGE = "Form not valid. Please try again.";
+    private static final String INVALID_EMAIL_MESSAGE ="Email not valid.";
+    private static final String INVALID_PASSWORD_MESSAGE = "Password must be minimum 5 length.";
 
     View view;
     EditText usernameEt;
@@ -59,25 +58,12 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 hideKeyboard();
-
                 if (validateForm()) {
                     progressBar.setVisibility(View.VISIBLE);
                     sendBtn.setClickable(false);
-                    UserModel.instance.signIn(usernameEt.getText().toString(), pwdEt.getText().toString(), new UserModel.Listener<Boolean>() {
-                        @Override
-                        public void onComplete(Boolean data) {
-                            if (data) {
-                                Navigation.findNavController(view).navigateUp();
-                                MainActivity activity = (MainActivity) getActivity();
-                                if (activity != null)
-                                    activity.updateUI();
-                            } else {
-                                signInFailed(AUTHENTICATION_FAILED_MESSAGE);
-                            }
-                        }
-                    });
+                    signIn();
                 } else {
-                    signInFailed(INVALID_FORM_MESSAGE);
+                    signInError(INVALID_FORM_MESSAGE);
                 }
             }
         });
@@ -85,7 +71,23 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
-    private void signInFailed(String errorMsg) {
+    private void signIn() {
+        UserModel.instance.signIn(usernameEt.getText().toString(), pwdEt.getText().toString(), new UserModel.Listener<Boolean>() {
+            @Override
+            public void onComplete(Boolean data) {
+                if (data) {
+                    Navigation.findNavController(view).navigateUp();
+                    MainActivity activity = (MainActivity) getActivity();
+                    if (activity != null)
+                        activity.updateUI();
+                } else {
+                    signInError(AUTHENTICATION_FAILED_MESSAGE);
+                }
+            }
+        });
+    }
+
+    private void signInError(String errorMsg) {
         progressBar.setVisibility(View.INVISIBLE);
         Snackbar mySnackbar = Snackbar.make(view, errorMsg, Snackbar.LENGTH_LONG);
         mySnackbar.show();
@@ -113,7 +115,7 @@ public class LoginFragment extends Fragment {
         String email = emailEt.getText().toString();
         if (email.contains("@") && Patterns.EMAIL_ADDRESS.matcher(email).matches() && !email.trim().isEmpty())
             return true;
-        emailEt.setError("Email not valid.");
+        emailEt.setError(INVALID_EMAIL_MESSAGE);
         return false;
     }
 
@@ -121,7 +123,7 @@ public class LoginFragment extends Fragment {
         String pwd = pwdEt.getText().toString();
         if (pwd.trim().length() > 5)
             return true;
-        pwdEt.setError("Password must be minimum 5 length.");
+        pwdEt.setError(INVALID_PASSWORD_MESSAGE);
         return false;
     }
 }

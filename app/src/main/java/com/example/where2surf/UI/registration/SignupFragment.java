@@ -35,9 +35,12 @@ import static android.app.Activity.RESULT_OK;
  */
 public class SignupFragment extends Fragment {
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int RESULT_SUCCESS = 0;
-    static final String REGISTRATION_FAILED_ERROR = "Registration failed. Please try again.";
-    static final String INVALID_FORM_ERROR = "Form not valid. Please try again.";
+    static final String REGISTRATION_FAILED_MESSAGE = "Registration failed. Please try again.";
+    static final String INVALID_FORM_MESSAGE = "Form not valid. Please try again.";
+    static final String INVALID_EMAIL_MESSAGE = "Email not valid.";
+    static final String INVALID_NAME_MESSAGE = "Name must start with capital letter.";
+    static final String INVALID_PASSWORD_MESSAGE = "Password must be minimum 5 length.";
+    static final String INVALID_VAL_PASSWORD_MESSAGE = "Validation password is not equal to password.";
 
     View view;
     ImageView image;
@@ -93,7 +96,7 @@ public class SignupFragment extends Fragment {
                     sendBtn.setClickable(false);
                     signUp();
                 } else {
-                    registrationFailed(INVALID_FORM_ERROR);
+                    registrationFailed(INVALID_FORM_MESSAGE);
                 }
             }
         });
@@ -123,7 +126,7 @@ public class SignupFragment extends Fragment {
 
                 @Override
                 public void onFail() {
-                    registrationFailed(REGISTRATION_FAILED_ERROR);
+                    registrationFailed(REGISTRATION_FAILED_MESSAGE);
                 }
             });
         } else
@@ -148,7 +151,7 @@ public class SignupFragment extends Fragment {
                         activity.updateUI();
                     Navigation.findNavController(view).navigateUp();
                 } else {
-                    registrationFailed(INVALID_FORM_ERROR);
+                    registrationFailed(INVALID_FORM_MESSAGE);
                 }
             }
         });
@@ -194,7 +197,7 @@ public class SignupFragment extends Fragment {
         String email = emailEt.getText().toString();
         if (email.contains("@") && Patterns.EMAIL_ADDRESS.matcher(email).matches() && !email.trim().isEmpty())
             return true;
-        emailEt.setError("Email not valid.");
+        emailEt.setError(INVALID_EMAIL_MESSAGE);
         return false;
     }
 
@@ -202,7 +205,7 @@ public class SignupFragment extends Fragment {
         String name = nameEt.getText().toString();
         if (!name.trim().isEmpty() && Character.isUpperCase(name.charAt(0)))
             return true;
-        nameEt.setError("Name must start with capital letter.");
+        nameEt.setError(INVALID_NAME_MESSAGE);
         return false;
     }
 
@@ -211,10 +214,10 @@ public class SignupFragment extends Fragment {
         String valPwd = valPwdEt.getText().toString();
 
         if (pwd.length() < 5) {
-            pwdEt.setError("Password must be minimum 5 length.");
+            pwdEt.setError(INVALID_PASSWORD_MESSAGE);
             return false;
         } else if (!pwd.equals(valPwd)) {
-            valPwdEt.setError("Validation password is not equal to password.");
+            valPwdEt.setError(INVALID_VAL_PASSWORD_MESSAGE);
             return false;
         }
         return true;
