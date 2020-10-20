@@ -1,1 +1,1 @@
-# Android app for surf condition reports.
+# Android app for surfing condition reports.
